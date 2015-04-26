@@ -1,0 +1,4 @@
+Sequência para a compilação:
+flex nova_linguagem.l
+gcc -o leitor lex.yy.c -lfl
+./linguagem < entrada.txt
