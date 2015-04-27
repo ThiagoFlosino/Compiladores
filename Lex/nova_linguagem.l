@@ -44,6 +44,11 @@ boolean									{printf("encontrei o boolean \n");}
 or										{printf("encontrei o OR\n ");}
 switch									{printf("encontrei o switch \n");}
 case                                    {printf("encontrei o case \n");}
+define                                  {printf("encontrei o define \n");}
+include                                 {printf("encontrei o include \n");}
+#                                 		{printf("encontrei o # \n");}
+cin										{printf("encontrei o cin \n");}
+cout									{printf("encontrei o cout \n");}
 
 -------Delimitadores
 "{"										{printf("encontrei o abre chaves \n");}
@@ -57,6 +62,8 @@ case                                    {printf("encontrei o case \n");}
 ":"										{printf("encontrei o  : \n"); }
 "\'"									{printf("encontrei a aspas simples \n"); }
 "\""									{printf("encontrei a aspas duplas \n"); }
+"<<"									{printf("encontrei o << \n"); }
+">>"									{printf("encontrei o >> \n"); }
 
 -------Operadores
 "+"										{printf("encontrei o mais \n");}
@@ -65,6 +72,9 @@ case                                    {printf("encontrei o case \n");}
 "--"									{printf("encontrei o menos menos \n");}
 "*"										{printf("encontrei o  * vezes \n");}
 "/"										{printf("encontrei o \\  vezes \n");}
+"//"									{printf("encontrei o comentario de uma linha \n");}
+"/*"									{printf("encontrei o abre comentario varias linhas \n");}
+"*/"									{printf("encontrei o fecha omentario varias linhas \n");}
 
 
 <<EOF>>                                 { return X; }
