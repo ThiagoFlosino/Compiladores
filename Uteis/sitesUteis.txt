@@ -1,0 +1,10 @@
+Sites de Auxílio
+
+Site com os padrões do C:
+http://www.quut.com/c/ANSI-C-grammar-l.html
+
+Site Padrões Lex C99
+http://www.lysator.liu.se/c/ANSI-C-grammar-y.html
+
+Git com padrões Prontos
+https://github.com/kstephens/gghc/tree/master/lab/comp-lang-c/orig
