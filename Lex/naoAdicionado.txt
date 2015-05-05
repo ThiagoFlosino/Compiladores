@@ -1,0 +1,22 @@
+palavras reservadas não colocadas (não sei pra que servem):
+
+enum;
+extern;
+inline;
+register;
+restrict;
+signed;
+union;
+unsigned;
+volatile;
+_Alignas;
+_alignof
+_Atomic
+_Bool
+_Complex
+_Generic
+_Imaginary
+_Noreturn
+_Static_assert
+_Thread_local
+_func_
