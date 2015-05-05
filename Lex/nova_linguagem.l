@@ -10,6 +10,7 @@ DIGIT 		[0-9]
 HEX 		0x[0-9A-Fa-f]+
 FLOAT 		{DIGIT}*\.{DIGIT}+|{DIGIT}+\.{DIGIT}*
 DECIMAL 	{DIGIT}+
+OCTAL		[0-7]
 CHAR 		[a-zA-Z]
 SPACE   	[\ \t]
 
@@ -26,29 +27,44 @@ SPACE   	[\ \t]
 {SPACE}									{printf("ENCONTREI O ESPAÇO OU O TAB\n");}
 
 -------PalavrasReservadas
-if 										{printf("encontrei o if \n"); }
-while									{printf("encontrei o while \n");}
-for										{printf("encontrei o for \n");}
-"for each"								{printf("encontrei o for each \n");}
-main									{printf("encontrei o main \n");}
-else                                    {printf("encontrei o else \n");}
-elseif                                  {printf("encontrei o elseif \n");}
-int										{printf("encontrei o int \n"); }
-string                                  {printf("encontrei o string \n");}
-float									{printf("encontrei o float \n");}
-double									{printf("encontrei o double \n");}
-char                                    {printf("encontrei o char \n");}
-boolean									{printf("encontrei o boolean \n");}
-"go to"									{printf("enconteri o go To \n");}
-"and"									{printf("encontrei o and \n"); }
-or										{printf("encontrei o OR\n ");}
-switch									{printf("encontrei o switch \n");}
-case                                    {printf("encontrei o case \n");}
-define                                  {printf("encontrei o define \n");}
-include                                 {printf("encontrei o include \n");}
 #                                 		{printf("encontrei o # \n");}
+auto									{printf("encontrei o auto \n");}
+"and"									{printf("encontrei o and \n"); }
+boolean									{printf("encontrei o boolean \n");}
+break									{printf("encontrei o break \n");}
+case                                    {printf("encontrei o case \n");}
+char                                    {printf("encontrei o char \n");}
 cin										{printf("encontrei o cin \n");}
 cout									{printf("encontrei o cout \n");}
+const 									{printf("encontrei o const \n");}
+continue								{printf("encontrei o continue \n");}
+define                                  {printf("encontrei o define \n");}
+double									{printf("encontrei o double \n");}
+default									{printf("encontrei o default \n");}
+do 										{printf("encontrei o do \n");}
+else                                    {printf("encontrei o else \n");}
+elseif                                  {printf("encontrei o elseif \n");}
+for										{printf("encontrei o for \n");}
+"for each"								{printf("encontrei o for each \n");}
+float									{printf("encontrei o float \n");}
+if 										{printf("encontrei o if \n"); }
+"go to"									{printf("enconteri o go To \n");}
+int										{printf("encontrei o int \n"); }
+include                                 {printf("encontrei o include \n");}
+long									{printf("encontrei o long \n");}
+main									{printf("encontrei o main \n");}
+or										{printf("encontrei o OR\n ");}
+return									{printf("encontrei o return \n");}
+string                                  {printf("encontrei o string \n");}
+switch									{printf("encontrei o switch \n");}
+short									{printf("encontrei o short \n");}
+sizeof									{printf("encontrei o sizeof \n");}
+static									{printf("encontrei o static \n");}
+struct									{printf("encontrei o struct \n");}
+switch									{printf("encontrei o switch \n");}
+typedef									{printf("encontrei o typedef \n");}
+void									{printf("encontrei o void \n");}
+while									{printf("encontrei o while \n");}
 
 -------Delimitadores
 "{"										{printf("encontrei o abre chaves \n");}
@@ -64,18 +80,45 @@ cout									{printf("encontrei o cout \n");}
 "\""									{printf("encontrei a aspas duplas \n"); }
 "<<"									{printf("encontrei o << \n"); }
 ">>"									{printf("encontrei o >> \n"); }
-
--------Operadores
-"+"										{printf("encontrei o mais \n");}
-"++"									{printf("encontrei o mais mais \n");}
-"-"										{printf("encontrei o menos \n");}
-"--"									{printf("encontrei o menos menos \n");}
-"*"										{printf("encontrei o  * vezes \n");}
+"..."									{printf("encontrei o ... \n");}
+"->"									{printf("encontrei o ->");}
 "/"										{printf("encontrei o \\  vezes \n");}
 "//"									{printf("encontrei o comentario de uma linha \n");}
 "/*"									{printf("encontrei o abre comentario varias linhas \n");}
 "*/"									{printf("encontrei o fecha omentario varias linhas \n");}
 
+
+
+-------Operadores
+"+"										{printf("encontrei o mais \n");}
+"-"										{printf("encontrei o menos \n");}
+"*"										{printf("encontrei o  * vezes \n");}
+"/"										{printf("encontrei o / \n");}
+"^"										{printf("encontrei o ^ \n");}
+"!="									{printf("encontrei o != \n");}
+"&"										{printf("encontrei o & \n");}
+"%"										{printf("encontrei o % \n");}
+"!"										{printf("encontrei o ! \n");}
+"|"										{printf("encontrei o | \n");}
+"~"										{printf("encontrei o ~ (complemento) \n");}
+"++"									{printf("encontrei o mais mais \n");}
+"--"									{printf("encontrei o menos menos \n");}
+"=="									{printf("encontrei o == \n");}
+"+="									{printf("encontrei o += \n");}
+"-="									{printf("encontrei o -= \n");}
+"*="									{printf("encontrei o *= \n");}
+"/="									{printf("encontrei o /= \n");}
+"<="									{printf("encontrei o <= \n");}
+">="									{printf("encontrei o >= \n");}
+"%="									{printf("encontrei o %= \n");}
+"|="									{printf("encontrei o |= \n");}
+"^⁼"									{printf("encontrei o ^= \n");}
+"&="									{printf("encontrei o &= \n");}
+"&&"									{printf("encontrei o && \n");}
+"||"									{printf("encontrei o || \n");}
+"<<="									{printf("encontrei o <<= \n");}
+">>="									{printf("encontrei o >>= \n");}
+"?"										{printf("encontrei o ? \n");}
 
 <<EOF>>                                 { return X; }
 %%
