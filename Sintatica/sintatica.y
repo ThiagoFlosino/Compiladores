@@ -32,6 +32,12 @@ string geraVariavel(int i, string tipo){
 	return var.str();
 }
 
+string geraVariavel2(int i){
+	stringstream var;
+	var << "temp_" << i;
+	return var.str();
+}
+
 int yylex(void);
 void yyerror(string);
 vector<node> Tabela;
@@ -44,7 +50,6 @@ vector<node> Tabela;
 
 %start S
 
-%define api.value.type {double}
 %token NUM
 %left '-' '+'
 %left '*' '/'
@@ -72,7 +77,7 @@ COMANDOS	: COMANDO ';'COMANDOS{
 			|{$$.traducao = "";}
 			;
 
-COMANDO 	: exp
+COMANDO 	: AUX
 		|DECLARACAO
 		|ATRIBUICAO
 		;	
@@ -166,25 +171,23 @@ ATRIBUICAO :TK_ID TK_IGUAL VALOR{
 				$$.traducao =  "\n\t" + $1.label + $2.label + $3.traducao + ";";
 			};
 
-exp:     exp '+' exp        { $$.traducao = $1.traducao + "+" + $3.traducao;      }
-		| exp '-' exp        { $$.traducao = "\n\t" + $1.traducao + "-" + $3.traducao;      }
-		| exp '*' exp        { $$.traducao = "\n\t" + $1.traducao + "*" + $3.traducao;      }
-		| exp '/' exp        { $$.traducao = "\n\t" + $1.traducao + "/" + $3.traducao;      }
-		| '(' exp ')'        { $$ .traducao= $2.traducao ; }
-;
 
-E		: E '+' E
-			{
-				$$.traducao = $1.traducao + $3.traducao + "\ta = b + c;\n";
-			}			
-			|TK_N_DECIMAL
-			{
-				$$.traducao = "\ta = " + $1.traducao + ";\n";
-			}
-			|TK_ID
-			{
-				$$.traducao = "\tVariavel = " + $1.label + ";\n";
-			}
+AUX: E{
+		Tabela.push_back(node());
+		Tabela[i].tempVar = geraVariavel2(i);
+		$$.traducao = "\n\t" + Tabela[i].tempVar + " = " +$1.traducao;
+		i++;
+	}
+	;
+
+E:		AUX '+' E { 
+			$$.traducao =  " = " + $1.traducao + " + " + $3.traducao;			
+		}
+		| AUX '-' E        { $$.traducao = "\n\t" + $1.traducao + "-" + $3.traducao;      }
+		| AUX '*' E        { $$.traducao = "\n\t" + $1.traducao + "*" + $3.traducao;      }
+		| AUX '/' E        { $$.traducao = "\n\t" + $1.traducao + "/" + $3.traducao;      }
+		| '(' E ')'        { $$ .traducao= $2.traducao ; }		
+		| VALOR
 			;
 
 
