@@ -1,0 +1,103 @@
+%{
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <stdio.h>
+#include <vector>
+
+#define YYSTYPE atributos
+
+using namespace std;
+
+struct atributos {
+	string label;
+	string traducao;
+};
+
+struct node {
+	string label;
+	string tipo;
+	string tempVar;
+};
+
+int i;
+
+int yylex(void);
+void yyerror(string);
+vector<node> Tabela;
+
+%}
+
+%token TK_TIPO_INT 
+%token TK_MAIN TK_ERRO TK_ID
+%token TK_DECIMAL TK_N_DECIMAL
+
+%start S
+
+%left '+'
+
+%%
+
+S 			: TK_TIPO_INT TK_MAIN '(' ')' BLOCO
+			{
+				cout << "/*Compilador Nova Linguagem*/\n" << "#include <iostream>\n#include<string.h>\n#include<stdio.h>\nint main(void)\n{\n" << $5.traducao << "\treturn 0;\n}" << endl; 
+			}
+			;
+
+BLOCO		: '{' COMANDOS '}'
+			{
+				$$.traducao = $2.traducao;
+			}
+			;
+
+COMANDOS	: COMANDO COMANDOS
+			|
+			;
+
+COMANDO 	: E 
+		|DECLARACAO
+		;	
+
+DECLARACAO	:TK_TIPO_INT TK_ID{
+			$$.traducao = "\tDeclara =" + $2.label;
+			}
+
+
+E		: E '+' E
+			{
+				$$.traducao = $1.traducao + $3.traducao + "\ta = b + c;\n";
+			}
+			| TK_DECIMAL
+			{
+				$$.traducao = "\ta = " + $1.traducao + ";\n";
+			}
+			|TK_N_DECIMAL
+			{
+				$$.traducao = "\ta = " + $1.traducao + ";\n";
+			}
+			|TK_ID
+			{
+				$$.traducao = "\tVariavel = " + $1.label + ";\n";
+			}
+			;
+
+
+%%
+
+
+#include "lex.yy.c"
+
+int yyparse();
+
+int main( int argc, char* argv[] )
+{
+	yyparse();
+
+	return 0;
+}
+
+void yyerror( string MSG )
+{
+	cout << MSG << endl;
+	exit (0);
+}				
