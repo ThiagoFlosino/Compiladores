@@ -28,7 +28,7 @@ string teste;
 
 string geraVariavel(int i, string tipo){
 	stringstream var;
-	var << "temp_" << tipo <<"_"<< i;
+	var << tipo << " temp_" << i;
 	return var.str();
 }
 
@@ -55,6 +55,7 @@ vector<node> Tabela;
 %left '*' '/'
 %precedence NEG   /* negation--unary minus */
 %right '^'        /* exponentiation */
+%nonassoc TK_IGUAL
 
 %%
 
@@ -80,83 +81,100 @@ COMANDOS	: COMANDO ';'COMANDOS{
 COMANDO 	: AUX
 		|DECLARACAO
 		|ATRIBUICAO
-		;	
+		;
 
-DECLARACAO	:TK_TIPO_INT TK_ID{
+TK_TIPO: TK_TIPO_INT
+		 |TK_TIPO_FLOAT
+		 |TK_TIPO_HEX
+		 |TK_TIPO_STRING
+		;
 
-			$$.traducao = "\tDeclara =" + $2.label + "\n\tTipo: " + $1.label + "\n\t"+geraVariavel(i,$1.label);
+DECLARACAO	:TK_TIPO TK_ID{
+
+			//$$.traducao = "\tDeclara =" + $2.label + "\n\tTipo: " + $1.label + "\n\t"+geraVariavel(i,$1.label);
+			$$.traducao =  "\n\t" + $1.label + " " + $2.label + ";";
 			Tabela.push_back(node());
 			Tabela[i].tipo = $1.label;
 			Tabela[i].label = $2.label;
 			Tabela[i].tempVar = geraVariavel(i,$1.label);
 			i++;
 			}
-			|TK_TIPO_INT TK_ID TK_IGUAL TK_DECIMAL{
+			|TK_TIPO TK_ID TK_IGUAL E {
 
-				$$.traducao = "\n\tDeclara =" + $2.label + "\n\tTipo: " + $1.label +  "\n\tValor: " + $4.traducao + "\n\t"+geraVariavel(i,$1.label);
-				Tabela.push_back(node());
-				Tabela[i].label = $2.label;
-				Tabela[i].tipo = $1.label;
-				Tabela[i].valor = $4.traducao;
-				Tabela[i].tempVar = geraVariavel(i,$1.label);
-				i++;
-			}|TK_TIPO_FLOAT TK_ID{
-
-				$$.traducao = "\n\tDeclara =" + $2.label + "\n\tTipo: " + $1.label + "\n\t"+geraVariavel(i,$1.label);
-				Tabela.push_back(node());
-				Tabela[i].label = $2.label;
-				Tabela[i].tipo = $1.label;
-				Tabela[i].tempVar = geraVariavel(i,$1.label);
-				i++;
-			}|TK_TIPO_FLOAT TK_ID TK_IGUAL TK_FLOAT{
-
-				$$.traducao = "\n\tDeclara =" + $2.label + "\n\tTipo: " + $1.label + "\n\tValor: " + $4.traducao +"\n\t"+geraVariavel(i,$1.label);
-				Tabela.push_back(node());
-				Tabela[i].label = $2.label;
-				Tabela[i].tipo = $1.label;
-				Tabela[i].valor = $4.traducao;
-				Tabela[i].tempVar = geraVariavel(i,$1.label);
-				i++;
-			
-			}|TK_TIPO_STRING TK_ID{
-
-				$$.traducao = "\n\tDeclara =" + $2.label + "\n\tTipo: " + $1.label + "\n\t"+geraVariavel(i,$1.label);
-			
-				Tabela.push_back(node());
-				Tabela[i].label = $2.label;
-				Tabela[i].tipo = $1.label;
-				Tabela[i].tempVar = geraVariavel(i,$1.label);
-				i++;
-			}|TK_TIPO_STRING TK_ID TK_IGUAL TK_STRING{
-
-				$$.traducao = "\n\tDeclara =" + $2.label + "\n\tTipo: " + $1.label +  "\n\tValor: " + $4.traducao + "\n\t"+geraVariavel(i,$1.label);
-				Tabela.push_back(node());
-				Tabela[i].label = $2.label;
-				Tabela[i].tipo = $1.label;
-				Tabela[i].valor = $4.traducao;
-				Tabela[i].tempVar = geraVariavel(i,$1.label);
-				i++;
-			}|TK_TIPO_HEX TK_ID{
-
-				$$.traducao = "\n\tDeclara =" + $2.label + "\n\tTipo: " + $1.label + "\n\t"+geraVariavel(i,$1.label);
-			
-				Tabela.push_back(node());
-				Tabela[i].label = $2.label;
-				Tabela[i].tipo = $1.label;
-				Tabela[i].tempVar = geraVariavel(i,$1.label);
-				i++;
-			}|TK_TIPO_HEX TK_ID TK_IGUAL TK_HEX{
-
-				$$.traducao = "\n\tDeclara =" + $2.label + "\n\tTipo: " + $1.label + "\n\tValor: " + $4.traducao +"\n\t"+geraVariavel(i,$1.label);
-			
-				Tabela.push_back(node());
-				Tabela[i].label = $2.label;
-				Tabela[i].tipo = $1.label;
-				Tabela[i].valor = $4.traducao;
-				Tabela[i].tempVar = geraVariavel(i,$1.label);
-				i++;
+				//$$.traducao = "\n\tDeclara =" + $2.label + "\n\tTipo: " + $1.label +  "\n\tValor: " + $4.traducao + "\n\t"+geraVariavel(i,$1.label);
+				
+				//Tabela.push_back(node());				
+				//Tabela[i].label = $2.label;
+				//Tabela[i].tipo = $1.label;
+				//Tabela[i].valor = $4.traducao;
+				//Tabela[i].tempVar = geraVariavel(i,$1.label);
+				$$.traducao =  $4.traducao;
+				//i++;
 			}
+			//|TK_TIPO_FLOAR TK_ID{
+
+				//$$.traducao = "\n\tDeclara =" + $2.label + "\n\tTipo: " + $1.label + "\n\t"+geraVariavel(i,$1.label);
+				//Tabela.push_back(node());
+				//Tabela[i].label = $2.label;
+				//Tabela[i].tipo = $1.label;
+				//Tabela[i].tempVar = geraVariavel(i,$1.label);
+				//i++;
+			//}
+			//|TK_TIPO TK_ID TK_IGUAL TK_FLOAT{
+
+				//$$.traducao = "\n\tDeclara =" + $2.label + "\n\tTipo: " + $1.label + "\n\tValor: " + $4.traducao +"\n\t"+geraVariavel(i,$1.label);
+				//Tabela.push_back(node());
+				//Tabela[i].label = $2.label;
+				//Tabela[i].tipo = $1.label;
+				//Tabela[i].valor = $4.traducao;
+				//Tabela[i].tempVar = geraVariavel(i,$1.label);
+				//i++;
+				//$$.traducao =   $4.traducao;
+			
+			//}
+			//|TK_TIPO_STRING TK_ID{
+
+			//	$$.traducao = "\n\tDeclara =" + $2.label + "\n\tTipo: " + $1.label + "\n\t"+geraVariavel(i,$1.label);
+			
+			//	Tabela.push_back(node());
+			//	Tabela[i].label = $2.label;
+			//	Tabela[i].tipo = $1.label;
+			//	Tabela[i].tempVar = geraVariavel(i,$1.label);
+			//	i++;
+			//}
+			//|TK_TIPO_STRING TK_ID TK_IGUAL TK_STRING{
+
+			//	$$.traducao = "\n\tDeclara =" + $2.label + "\n\tTipo: " + $1.label +  "\n\tValor: " + $4.traducao + "\n\t"+geraVariavel(i,$1.label);
+			//	Tabela.push_back(node());
+			//	Tabela[i].label = $2.label;
+			//	Tabela[i].tipo = $1.label;
+			//	Tabela[i].valor = $4.traducao;
+			//	Tabela[i].tempVar = geraVariavel(i,$1.label);
+			//	i++;
+			//}
+			//|TK_TIPO_HEX TK_ID{
+
+			//	$$.traducao = "\n\tDeclara =" + $2.label + "\n\tTipo: " + $1.label + "\n\t"+geraVariavel(i,$1.label);
+			
+			//	Tabela.push_back(node());
+			//	Tabela[i].label = $2.label;
+			//	Tabela[i].tipo = $1.label;
+			//	Tabela[i].tempVar = geraVariavel(i,$1.label);
+			//	i++;
+			//}
+			//|TK_TIPO_HEX TK_ID TK_IGUAL TK_HEX{
+
+			//	$$.traducao = "\n\tDeclara =" + $2.label + "\n\tTipo: " + $1.label + "\n\tValor: " + $4.traducao +"\n\t"+geraVariavel(i,$1.label);
+			
+			//	Tabela.push_back(node());
+			//	Tabela[i].label = $2.label;
+			//	Tabela[i].tipo = $1.label;
+			//	Tabela[i].valor = $4.traducao;
+			//	Tabela[i].tempVar = geraVariavel(i,$1.label);
+			//	i++;
+			//}
 			;
+
 			
 ATRIBUICAO :TK_ID TK_IGUAL VALOR{						
 				for(int i = 0; i < Tabela.size(); i++) { // Percorre o vector procurando o label da variavel.
@@ -165,7 +183,6 @@ ATRIBUICAO :TK_ID TK_IGUAL VALOR{
 				   		Tabela.at(i).valor = $3.traducao;
 				   		//teste = Tabela.at(i).valor; --> linha utilizada para verificar se estava funcionando;
 				   		//Faz a atribuição a variavel depois que ela foi declarada. Ex: var = 2;
-
 				   }
 				}			
 				$$.traducao =  "\n\t" + $1.label + $2.label + $3.traducao + ";";
@@ -174,7 +191,7 @@ ATRIBUICAO :TK_ID TK_IGUAL VALOR{
 
 AUX: E{
 	Tabela.push_back(node());
-	Tabela[i].tempVar = geraVariavel2(i);
+	Tabela[i].tempVar = geraVariavel2(i);	
 	//$$.traducao = "\n\t" + Tabela[i].tempVar + " = " +$1.traducao;
 	i++;
 	$$.traducao =  $1.traducao;
@@ -183,18 +200,39 @@ AUX: E{
 E	:	E '+' E { 
 			Tabela.push_back(node());
 			Tabela[i].tempVar = geraVariavel2(i);
+			Tabela[i].valor =  Tabela[i-1].valor + " + " + Tabela[i-2].valor;
+
 			//if(Tabela[i-1].tipo.compare(Tabela[i-2].tipo) != 0){
-				$$.traducao =   $1.traducao  + $3.traducao + "\n\t" + Tabela[i].tempVar +  " = " + Tabela[i-1].tempVar + " + " + Tabela[i-2].tempVar +";";	
+				$$.traducao =   $1.traducao  + $3.traducao + "\n\t" + "int " + Tabela[i].tempVar +  " = " + Tabela[i-1].tempVar + " + " + Tabela[i-2].tempVar +";";	
 				i++;				
 			//}
 			//yyerror("Tipos diferentes");
 					
 		}
-		| E '-' E        { $$.traducao = "\n\t" + $1.traducao + "-" + $3.traducao;      }
-		| E '*' E        { $$.traducao = "\n\t" + $1.traducao + "*" + $3.traducao;      }
-		| E '/' E        { $$.traducao = "\n\t" + $1.traducao + "/" + $3.traducao;      }
+		| E '-' E        { 
+			Tabela.push_back(node());
+			Tabela[i].tempVar = geraVariavel2(i);
+			Tabela[i].valor =  Tabela[i-1].valor + " - " + Tabela[i-2].valor;
+			$$.traducao =   $1.traducao  + $3.traducao + "\n\t" + "int " + Tabela[i].tempVar +  " = " + Tabela[i-1].tempVar + " - " + Tabela[i-2].tempVar +";";	
+			i++;
+		}
+		| E '*' E        { 
+			Tabela.push_back(node());
+			Tabela[i].tempVar = geraVariavel2(i);
+			Tabela[i].valor =  Tabela[i-1].valor + " * " + Tabela[i-2].valor;			
+			$$.traducao =   $1.traducao  + $3.traducao + "\n\t" + "int " + Tabela[i].tempVar +  " = " + Tabela[i-1].tempVar + " * " + Tabela[i-2].tempVar +";";	
+			i++;
+		}
+		| E '/' E        { 
+			Tabela.push_back(node());
+			Tabela[i].tempVar = geraVariavel2(i);
+			Tabela[i].valor =  Tabela[i-1].valor + " / " + Tabela[i-2].valor;			
+			$$.traducao =   $1.traducao  + $3.traducao + "\n\t" + "int " + Tabela[i].tempVar +  " = " + Tabela[i-1].tempVar + " / " + Tabela[i-2].tempVar +";";	
+			i++;
+		}
 		| '(' E ')'        { $$ .traducao= $2.traducao ; }		
 		| VALOR_OP   { $$.traducao=  $1.traducao; }
+		| TK_ID
 			;
 
 
