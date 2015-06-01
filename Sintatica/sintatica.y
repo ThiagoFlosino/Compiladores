@@ -175,6 +175,7 @@ DECLARACAO	:TK_TIPO TK_ID{
 			//}
 			;
 
+
 			
 ATRIBUICAO :TK_ID TK_IGUAL VALOR{						
 				for(int i = 0; i < Tabela.size(); i++) { // Percorre o vector procurando o label da variavel.
@@ -197,16 +198,24 @@ AUX: E{
 	$$.traducao =  $1.traducao;
 }
 
+
 E	:	E '+' E { 
 			Tabela.push_back(node());
 			Tabela[i].tempVar = geraVariavel2(i);
 			Tabela[i].valor =  Tabela[i-1].valor + " + " + Tabela[i-2].valor;
 
-			//if(Tabela[i-1].tipo.compare(Tabela[i-2].tipo) != 0){
+			if(Tabela[i-1].tipo.compare(Tabela[i-2].tipo) == 0){
 				$$.traducao =   $1.traducao  + $3.traducao + "\n\t" + "int " + Tabela[i].tempVar +  " = " + Tabela[i-1].tempVar + " + " + Tabela[i-2].tempVar +";";	
-				i++;				
+			}
+			else if( (Tabela[i-1].tipo.compare("float") == 0) && (Tabela[i-2].tipo.compare("int") == 0) || (Tabela[i-1].tipo.compare("int") == 0) && (Tabela[i-2].tipo.compare("float") == 0) ){
+				$$.traducao =   $1.traducao  + $3.traducao + "\n\t" + "float " + Tabela[i].tempVar +  " = " + "(float)" + Tabela[i-1].tempVar + " + " + "(float)" + Tabela[i-2].tempVar +";";
+			}
+			else{
+				yyerror("Tipos diferentes");
+			}	
+			i++;				
 			//}
-			//yyerror("Tipos diferentes");
+			
 					
 		}
 		| E '-' E        { 
@@ -232,7 +241,6 @@ E	:	E '+' E {
 		}
 		| '(' E ')'        { $$ .traducao= $2.traducao ; }		
 		| VALOR_OP   { $$.traducao=  $1.traducao; }
-		| TK_ID
 			;
 
 
