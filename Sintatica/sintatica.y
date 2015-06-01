@@ -173,28 +173,67 @@ ATRIBUICAO :TK_ID TK_IGUAL VALOR{
 
 
 AUX: E{
-		Tabela.push_back(node());
-		Tabela[i].tempVar = geraVariavel2(i);
-		$$.traducao = "\n\t" + Tabela[i].tempVar + " = " +$1.traducao;
-		i++;
-	}
-	;
+	Tabela.push_back(node());
+	Tabela[i].tempVar = geraVariavel2(i);
+	//$$.traducao = "\n\t" + Tabela[i].tempVar + " = " +$1.traducao;
+	i++;
+	$$.traducao =  $1.traducao;
+}
 
-E:		AUX '+' E { 
-			$$.traducao =  " = " + $1.traducao + " + " + $3.traducao;			
+E	:	E '+' E { 
+			Tabela.push_back(node());
+			Tabela[i].tempVar = geraVariavel2(i);
+			//if(Tabela[i-1].tipo.compare(Tabela[i-2].tipo) != 0){
+				$$.traducao =   $1.traducao  + $3.traducao + "\n\t" + Tabela[i].tempVar +  " = " + Tabela[i-1].tempVar + " + " + Tabela[i-2].tempVar +";";	
+				i++;				
+			//}
+			//yyerror("Tipos diferentes");
+					
 		}
-		| AUX '-' E        { $$.traducao = "\n\t" + $1.traducao + "-" + $3.traducao;      }
-		| AUX '*' E        { $$.traducao = "\n\t" + $1.traducao + "*" + $3.traducao;      }
-		| AUX '/' E        { $$.traducao = "\n\t" + $1.traducao + "/" + $3.traducao;      }
+		| E '-' E        { $$.traducao = "\n\t" + $1.traducao + "-" + $3.traducao;      }
+		| E '*' E        { $$.traducao = "\n\t" + $1.traducao + "*" + $3.traducao;      }
+		| E '/' E        { $$.traducao = "\n\t" + $1.traducao + "/" + $3.traducao;      }
 		| '(' E ')'        { $$ .traducao= $2.traducao ; }		
-		| VALOR
+		| VALOR_OP   { $$.traducao=  $1.traducao; }
 			;
 
 
 // Recebe todos os valores
-VALOR:  TK_DECIMAL { $$.traducao= $1.traducao; }
+VALOR:  TK_DECIMAL { $$.traducao=$1.traducao; }
 		| TK_FLOAT { $$.traducao=$1.traducao; }
 		| TK_HEX { $$.traducao= $1.traducao; }
+		| TK_STRING {$$.traducao = $1.traducao;};
+
+
+// Recebe todos os valores
+VALOR_OP:  TK_DECIMAL { 
+			Tabela.push_back(node());
+			Tabela[i].tempVar = geraVariavel2(i);
+			Tabela[i].valor = $1.traducao;
+			Tabela[i].tipo = "int";
+
+			$$.traducao = "\n\t int " + Tabela[i].tempVar + " = " +  $1.traducao + ";";
+			i++;
+		}
+
+		| TK_FLOAT { 
+			Tabela.push_back(node());
+			Tabela[i].tempVar = geraVariavel2(i);
+			Tabela[i].valor = $1.traducao;
+			Tabela[i].tipo = "float";
+
+			$$.traducao = "\n\t float " + Tabela[i].tempVar + " = " +  $1.traducao + ";";
+			i++;
+		 }
+		| TK_HEX { 
+			Tabela.push_back(node());
+			Tabela[i].tempVar = geraVariavel2(i);
+			Tabela[i].valor = $1.traducao;
+			Tabela[i].tipo = "hex";
+
+			$$.traducao = "\n\t hex " + Tabela[i].tempVar + " = " +  $1.traducao + ";";
+			i++;
+		 }
 		| TK_STRING {$$.traducao = $1.traducao;};
 %%
 
