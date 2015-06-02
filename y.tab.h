@@ -58,8 +58,12 @@ extern int yydebug;
     TK_FLOAT = 268,
     TK_HEX = 269,
     TK_STRING = 270,
-    NUM = 271,
-    NEG = 272
+    TK_MAIOR_IGUAL = 271,
+    TK_IGUAL_IGUAL = 272,
+    TK_MENOR_IGUAL = 273,
+    TK_DIFERENTE = 274,
+    NUM = 275,
+    NEG = 276
   };
 #endif
 /* Tokens.  */
@@ -76,8 +80,12 @@ extern int yydebug;
 #define TK_FLOAT 268
 #define TK_HEX 269
 #define TK_STRING 270
-#define NUM 271
-#define NEG 272
+#define TK_MAIOR_IGUAL 271
+#define TK_IGUAL_IGUAL 272
+#define TK_MENOR_IGUAL 273
+#define TK_DIFERENTE 274
+#define NUM 275
+#define NEG 276
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

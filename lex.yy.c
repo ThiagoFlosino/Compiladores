@@ -369,8 +369,8 @@ static void yy_fatal_error (yyconst char msg[]  );
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
 
-#define YY_NUM_RULES 87
-#define YY_END_OF_BUFFER 88
+#define YY_NUM_RULES 89
+#define YY_END_OF_BUFFER 90
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -380,34 +380,34 @@ struct yy_trans_info
 	};
 static yyconst flex_int16_t yy_accept[273] =
     {   0,
-        0,    0,   88,   86,   14,    5,   65,   54,   16,   64,
-       53,   51,   61,   61,   61,   86,   61,    8,    8,   52,
-       86,    6,   86,   84,   85,   62,   85,   85,   85,   85,
-       85,   85,   85,   85,   85,   85,   85,   85,   85,   85,
-       85,   85,   85,   66,   67,   14,   63,    0,   13,    0,
-       80,   79,    0,    0,   59,   73,   68,   71,   69,    0,
-        9,   72,    0,   11,   58,   57,   74,   11,    8,    0,
-        0,   75,   70,   76,   55,    0,    0,   85,    0,   85,
-       85,   85,   85,   85,   85,   85,   85,   85,   30,   85,
-       85,   85,   85,   85,   35,   85,   85,   85,   40,   85,
+        0,    0,   90,   88,   14,    5,   70,   60,   16,   69,
+       59,   55,   67,   67,   67,   88,   67,    8,    8,   58,
+       57,    6,   56,   86,   87,   68,   87,   87,   87,   87,
+       87,   87,   87,   87,   87,   87,   87,   87,   87,   87,
+       87,   87,   87,   71,   72,   14,   51,    0,   13,    0,
+       82,   81,    0,    0,   65,   77,   73,   75,   74,    0,
+        9,   76,    0,   11,   64,   63,   78,   11,    8,    0,
+        0,   53,   52,   54,   61,    0,    0,   87,    0,   87,
+       87,   87,   87,   87,   87,   87,   87,   87,   30,   87,
+       87,   87,   87,   87,   35,   87,   87,   87,   40,   87,
 
-       85,   85,   85,   85,   85,   85,   85,   77,   81,    0,
-       12,   12,   56,   11,   10,   82,   83,    0,   18,   85,
-       85,   85,   85,   85,   23,   85,   85,   85,   85,   85,
-       85,   33,    0,    4,   85,    1,   85,   85,   85,   85,
-       85,   85,   85,   85,   85,   85,   85,    0,   12,   78,
-       17,   85,   85,   21,   22,   85,   85,   24,   85,   85,
-       85,   31,   85,    0,    0,   85,   38,   39,   85,   85,
-       85,   85,   85,   85,   85,   85,   48,   85,    0,   85,
-       20,   25,   85,   85,   85,   85,   85,    2,    0,   36,
-       85,   85,   42,   85,   85,   85,   85,   85,   85,   49,
+       87,   87,   87,   87,   87,   87,   87,   79,   83,    0,
+       12,   12,   62,   11,   10,   84,   85,    0,   18,   87,
+       87,   87,   87,   87,   23,   87,   87,   87,   87,   87,
+       87,   33,    0,    4,   87,    1,   87,   87,   87,   87,
+       87,   87,   87,   87,   87,   87,   87,    0,   12,   80,
+       17,   87,   87,   21,   22,   87,   87,   24,   87,   87,
+       87,   31,   87,    0,    0,   87,   38,   39,   87,   87,
+       87,   87,   87,   87,   87,   87,   48,   87,    0,   87,
+       20,   25,   87,   87,   87,   87,   87,    2,    0,   36,
+       87,   87,   42,   87,   87,   87,   87,   87,   87,   49,
 
-        0,   85,   85,   85,   27,   28,   32,    0,   85,   41,
-       43,   44,    3,   45,   46,   85,    0,   19,   85,   29,
+        0,   87,   87,   87,   27,   28,   32,    0,   87,   41,
+       43,   44,    3,   45,   46,   87,    0,   19,   87,   29,
         0,   37,   47,    0,    0,    0,    0,   26,   34,    0,
         0,    0,    0,    0,    0,    0,    0,    0,    0,    0,
         0,    0,    0,    0,    7,    0,    0,    0,    0,    0,
-        0,    0,    0,    0,    0,    0,    0,    0,   60,    0,
+        0,    0,    0,    0,    0,    0,    0,    0,   66,    0,
         0,    0,    0,    0,   50,    0,    0,    0,    0,    0,
        15,    0
     } ;
@@ -1227,189 +1227,199 @@ YY_RULE_SETUP
 case 51:
 YY_RULE_SETUP
 #line 78 "./Lex/nova_linguagem.l"
-{return *yytext;}
+{yylval.label = yytext; return TK_DIFERENTE;}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
 #line 79 "./Lex/nova_linguagem.l"
-{printf("encontrei o  : \n"); }
+{yylval.label = yytext; return TK_IGUAL_IGUAL;}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
 #line 80 "./Lex/nova_linguagem.l"
-{printf("encontrei a aspas simples \n"); }
+{yylval.label = yytext; return TK_MENOR_IGUAL;}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
 #line 81 "./Lex/nova_linguagem.l"
-{printf("encontrei a aspas duplas \n"); }
+{yylval.label = yytext; return TK_MAIOR_IGUAL;}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 83 "./Lex/nova_linguagem.l"
-{printf("encontrei o >> \n"); }
+#line 82 "./Lex/nova_linguagem.l"
+{return *yytext;}
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 84 "./Lex/nova_linguagem.l"
-{printf("encontrei o ... \n");}
+#line 83 "./Lex/nova_linguagem.l"
+{return *yytext;}
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 86 "./Lex/nova_linguagem.l"
-{printf("encontrei o comentario de uma linha \n");}
+#line 84 "./Lex/nova_linguagem.l"
+{return *yytext;}
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 87 "./Lex/nova_linguagem.l"
-{printf("encontrei o abre comentario varias linhas \n");}
+#line 85 "./Lex/nova_linguagem.l"
+{printf("encontrei o  : \n"); }
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 88 "./Lex/nova_linguagem.l"
-{printf("encontrei o fecha omentario varias linhas \n");}
+#line 86 "./Lex/nova_linguagem.l"
+{printf("encontrei a aspas simples \n"); }
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 92 "./Lex/nova_linguagem.l"
-
+#line 87 "./Lex/nova_linguagem.l"
+{printf("encontrei a aspas duplas \n"); }
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 93 "./Lex/nova_linguagem.l"
-{return *yytext; }
+#line 89 "./Lex/nova_linguagem.l"
+{printf("encontrei o >> \n"); }
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
-#line 94 "./Lex/nova_linguagem.l"
-{printf("encontrei o ^ \n");}
+#line 90 "./Lex/nova_linguagem.l"
+{printf("encontrei o ... \n");}
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 95 "./Lex/nova_linguagem.l"
-{printf("encontrei o != \n");}
+#line 92 "./Lex/nova_linguagem.l"
+{printf("encontrei o comentario de uma linha \n");}
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 96 "./Lex/nova_linguagem.l"
-{printf("encontrei o & \n");}
+#line 93 "./Lex/nova_linguagem.l"
+{printf("encontrei o abre comentario varias linhas \n");}
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 97 "./Lex/nova_linguagem.l"
-{printf("encontrei o ! \n");}
+#line 94 "./Lex/nova_linguagem.l"
+{printf("encontrei o fecha omentario varias linhas \n");}
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
 #line 98 "./Lex/nova_linguagem.l"
-{printf("encontrei o | \n");}
+
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
 #line 99 "./Lex/nova_linguagem.l"
-{printf("encontrei o ~ (complemento) \n");}
+{return *yytext; }
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
 #line 100 "./Lex/nova_linguagem.l"
-{printf("encontrei o mais mais \n");}
+{printf("encontrei o ^ \n");}
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
 #line 101 "./Lex/nova_linguagem.l"
-{printf("encontrei o menos menos \n");}
+{printf("encontrei o & \n");}
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
 #line 102 "./Lex/nova_linguagem.l"
-{printf("encontrei o == \n");}
+{printf("encontrei o ! \n");}
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
 #line 103 "./Lex/nova_linguagem.l"
-{printf("encontrei o += \n");}
+{printf("encontrei o | \n");}
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
 #line 104 "./Lex/nova_linguagem.l"
-{printf("encontrei o -= \n");}
+{printf("encontrei o ~ (complemento) \n");}
 	YY_BREAK
 case 73:
 YY_RULE_SETUP
 #line 105 "./Lex/nova_linguagem.l"
-{printf("encontrei o *= \n");}
+{printf("encontrei o mais mais \n");}
 	YY_BREAK
 case 74:
 YY_RULE_SETUP
 #line 106 "./Lex/nova_linguagem.l"
-{printf("encontrei o /= \n");}
+{printf("encontrei o menos menos \n");}
 	YY_BREAK
 case 75:
 YY_RULE_SETUP
 #line 107 "./Lex/nova_linguagem.l"
-{printf("encontrei o <= \n");}
+{printf("encontrei o += \n");}
 	YY_BREAK
 case 76:
 YY_RULE_SETUP
 #line 108 "./Lex/nova_linguagem.l"
-{printf("encontrei o >= \n");}
+{printf("encontrei o -= \n");}
 	YY_BREAK
 case 77:
 YY_RULE_SETUP
 #line 109 "./Lex/nova_linguagem.l"
-{printf("encontrei o |= \n");}
+{printf("encontrei o *= \n");}
 	YY_BREAK
 case 78:
 YY_RULE_SETUP
 #line 110 "./Lex/nova_linguagem.l"
-{printf("encontrei o ^= \n");}
+{printf("encontrei o /= \n");}
 	YY_BREAK
 case 79:
 YY_RULE_SETUP
 #line 111 "./Lex/nova_linguagem.l"
-{printf("encontrei o &= \n");}
+{printf("encontrei o |= \n");}
 	YY_BREAK
 case 80:
 YY_RULE_SETUP
 #line 112 "./Lex/nova_linguagem.l"
-{printf("encontrei o && \n");}
+{printf("encontrei o ^= \n");}
 	YY_BREAK
 case 81:
 YY_RULE_SETUP
 #line 113 "./Lex/nova_linguagem.l"
-{printf("encontrei o || \n");}
+{printf("encontrei o &= \n");}
 	YY_BREAK
 case 82:
 YY_RULE_SETUP
 #line 114 "./Lex/nova_linguagem.l"
-{printf("encontrei o <<= \n");}
+{printf("encontrei o && \n");}
 	YY_BREAK
 case 83:
 YY_RULE_SETUP
 #line 115 "./Lex/nova_linguagem.l"
-{printf("encontrei o >>= \n");}
+{printf("encontrei o || \n");}
 	YY_BREAK
 case 84:
 YY_RULE_SETUP
 #line 116 "./Lex/nova_linguagem.l"
-{printf("encontrei o ? \n");}
+{printf("encontrei o <<= \n");}
 	YY_BREAK
 case 85:
 YY_RULE_SETUP
-#line 118 "./Lex/nova_linguagem.l"
-{ yylval.label = yytext; return TK_ID; }
+#line 117 "./Lex/nova_linguagem.l"
+{printf("encontrei o >>= \n");}
 	YY_BREAK
 case 86:
 YY_RULE_SETUP
-#line 119 "./Lex/nova_linguagem.l"
-{printf("ponto \n"); *yytext; }
+#line 118 "./Lex/nova_linguagem.l"
+{printf("encontrei o ? \n");}
 	YY_BREAK
 case 87:
 YY_RULE_SETUP
 #line 120 "./Lex/nova_linguagem.l"
+{ yylval.label = yytext; return TK_ID; }
+	YY_BREAK
+case 88:
+YY_RULE_SETUP
+#line 121 "./Lex/nova_linguagem.l"
+{printf("ponto \n"); *yytext; }
+	YY_BREAK
+case 89:
+YY_RULE_SETUP
+#line 122 "./Lex/nova_linguagem.l"
 ECHO;
 	YY_BREAK
-#line 1413 "lex.yy.c"
+#line 1423 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2404,7 +2414,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 119 "./Lex/nova_linguagem.l"
+#line 121 "./Lex/nova_linguagem.l"
 
 
 

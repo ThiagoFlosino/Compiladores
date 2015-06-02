@@ -75,7 +75,13 @@ hex 				{yylval.label = yytext;return TK_TIPO_HEX;}
 "while"									{printf("encontrei o while \n");}
 
 -------Delimitadores
-[(){}[\];,] 								{return *yytext;}
+"!="									{yylval.label = yytext; return TK_DIFERENTE;}
+"=="									{yylval.label = yytext; return TK_IGUAL_IGUAL;}
+"<="									{yylval.label = yytext; return TK_MENOR_IGUAL;}
+">="									{yylval.label = yytext; return TK_MAIOR_IGUAL;}
+[(){}[\];,] 							{return *yytext;}
+">"										{return *yytext;}
+"<"										{return *yytext;}
 ":"									{printf("encontrei o  : \n"); }
 "\'"									{printf("encontrei a aspas simples \n"); }
 "\""									{printf("encontrei a aspas duplas \n"); }
@@ -92,20 +98,16 @@ hex 				{yylval.label = yytext;return TK_TIPO_HEX;}
 -------Operadores
 [+\-*/]		{return *yytext; }
 "^"										{printf("encontrei o ^ \n");}
-"!="									{printf("encontrei o != \n");}
 "&"										{printf("encontrei o & \n");}
 "!"										{printf("encontrei o ! \n");}
 "|"										{printf("encontrei o | \n");}
 "~"										{printf("encontrei o ~ (complemento) \n");}
 "++"									{printf("encontrei o mais mais \n");}
 "--"									{printf("encontrei o menos menos \n");}
-"=="									{printf("encontrei o == \n");}
 "+="									{printf("encontrei o += \n");}
 "-="									{printf("encontrei o -= \n");}
 "*="									{printf("encontrei o *= \n");}
 "/="									{printf("encontrei o /= \n");}
-"<="									{printf("encontrei o <= \n");}
-">="									{printf("encontrei o >= \n");}
 "|="									{printf("encontrei o |= \n");}
 "^⁼"									{printf("encontrei o ^= \n");}
 "&="									{printf("encontrei o &= \n");}
