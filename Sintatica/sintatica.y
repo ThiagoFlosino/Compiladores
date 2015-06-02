@@ -63,7 +63,7 @@ vector<node> Tabela;
 S 			: TK_TIPO_INT TK_MAIN '(' ')' BLOCO
 			{
 				cout << "/*Compilador Nova Linguagem*/\n" << 
-				"#include <iostream>\n#include<string.h>\n#include<stdio.h>\nint main(void)\n{\n" << $5.traducao << "\n\treturn 0;\n}" << endl; 
+				"#include <iostream>\n#include<string.h>\n#include<stdio.h>\n#define true 1; \n#define false 0; \nint main(void)\n{\n" << $5.traducao << "\n\treturn 0;\n}" << endl; 
 			}
 			;
 
@@ -240,7 +240,7 @@ E	:	E '+' E {
 			$$.traducao =   $1.traducao  + $3.traducao + "\n\t" + "int " + Tabela[i].tempVar +  " = " + Tabela[i-1].tempVar + " / " + Tabela[i-2].tempVar +";";	
 			i++;
 		}
-		| '(' E ')'        { $$ .traducao= "\n\t("+ $2.traducao + ")"; 
+		| '(' E ')'        { $$ .traducao= "("+ $2.traducao + ")"; 
 		}|E TK_MAIOR_IGUAL E 		{
 			Tabela.push_back(node());
 			Tabela[i].tempVar = geraVariavel2(i);
@@ -248,7 +248,7 @@ E	:	E '+' E {
 			if(Tabela[i-2].valor >= Tabela[i-1].valor){
 				Tabela[i].valor = "true";
 			}else{Tabela[i].valor = "false";}
-			$$.traducao = Tabela[i].valor + "\n";
+			$$.traducao = $1.traducao  + $3.traducao + "\n\t" + Tabela[i].tempVar + " = " + Tabela[i-2].tempVar + " >= " + Tabela[i-1].tempVar +";\n";
 			i++;
 		}| E '>' E 		{
 			Tabela.push_back(node());
@@ -257,7 +257,7 @@ E	:	E '+' E {
 			if(Tabela[i-2].valor > Tabela[i-1].valor){
 				Tabela[i].valor = "true";
 			}else{Tabela[i].valor = "false";}
-			$$.traducao = Tabela[i].valor+ "\n";
+			$$.traducao = $1.traducao  + $3.traducao + "\n\t" + Tabela[i].tempVar + " = " + Tabela[i-2].tempVar + " > " + Tabela[i-1].tempVar +";\n";
 			i++;
 		}|E TK_MENOR_IGUAL E 		{
 			Tabela.push_back(node());
@@ -266,7 +266,7 @@ E	:	E '+' E {
 			if(Tabela[i-2].valor <= Tabela[i-1].valor){
 				Tabela[i].valor = "true";
 			}else{Tabela[i].valor = "false";}
-			$$.traducao = Tabela[i].valor+ "\n";
+			$$.traducao = $1.traducao  + $3.traducao + "\n\t" + Tabela[i].tempVar + " = " + Tabela[i-2].tempVar  + " <= " + Tabela[i-1].tempVar + ";\n";
 			i++;
 		}|E '<' E 		{
 			Tabela.push_back(node());
@@ -275,7 +275,7 @@ E	:	E '+' E {
 			if(Tabela[i-2].valor < Tabela[i-1].valor){
 				Tabela[i].valor = "true";
 			}else{Tabela[i].valor = "false";}
-			$$.traducao = Tabela[i].valor+ "\n";
+			$$.traducao = $1.traducao  + $3.traducao + "\n\t" + Tabela[i].tempVar + " = " + Tabela[i-2].tempVar  + " < " + Tabela[i-1].tempVar + ";\n";
 			i++;
 		}|E TK_DIFERENTE E 		{
 			Tabela.push_back(node());
@@ -284,7 +284,7 @@ E	:	E '+' E {
 			if(Tabela[i-2].valor != Tabela[i-1].valor){
 				Tabela[i].valor = "true";
 			}else{Tabela[i].valor = "false";}
-			$$.traducao = Tabela[i].valor+ "\n";
+			$$.traducao = $1.traducao  + $3.traducao + "\n\t" + Tabela[i].tempVar + " = " + Tabela[i-2].tempVar  + " != " + Tabela[i-1].tempVar + ";\n";
 			i++;
 		}
 		| VALOR_OP   { $$.traducao=  $1.traducao; }
