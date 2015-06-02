@@ -38,6 +38,8 @@ hex 				{yylval.label = yytext;return TK_TIPO_HEX;}
 
 
 -------PalavrasReservadas
+"true" 					{yylval.label = yytext; return TK_TRUE;}
+"false" 					{yylval.label = yytext; return TK_FALSE;}
 "#"                                 	{printf("encontrei o # \n");}
 "auto"					{printf("encontrei o auto \n");}
 "and"					{printf("encontrei o and \n"); }
@@ -111,8 +113,8 @@ hex 				{yylval.label = yytext;return TK_TIPO_HEX;}
 "|="									{printf("encontrei o |= \n");}
 "^⁼"									{printf("encontrei o ^= \n");}
 "&="									{printf("encontrei o &= \n");}
-"&&"									{printf("encontrei o && \n");}
-"||"									{printf("encontrei o || \n");}
+"&&"									{yylval.label = yytext; return TK_AND;}
+"||"									{yylval.label = yytext; return TK_OR;}
 "<<="									{printf("encontrei o <<= \n");}
 ">>="									{printf("encontrei o >>= \n");}
 "?"										{printf("encontrei o ? \n");}

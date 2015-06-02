@@ -1,5 +1,5 @@
 int main(){
 
-	3 + 4 + 12.5;
+	 string i = "safsaf";
 	
 }
