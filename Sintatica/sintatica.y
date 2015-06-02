@@ -47,6 +47,7 @@ vector<node> Tabela;
 %token TK_TIPO_INT TK_TIPO_FLOAT TK_TIPO_STRING TK_TIPO_HEX
 %token TK_MAIN TK_ERRO TK_ID TK_IGUAL
 %token TK_DECIMAL TK_N_DECIMAL TK_FLOAT TK_HEX TK_STRING //Valores
+%token TK_MAIOR_IGUAL TK_IGUAL_IGUAL TK_MENOR_IGUAL TK_DIFERENTE
 
 %start S
 
@@ -195,7 +196,7 @@ AUX: E{
 	Tabela[i].tempVar = geraVariavel2(i);	
 	//$$.traducao = "\n\t" + Tabela[i].tempVar + " = " +$1.traducao;
 	i++;
-	$$.traducao =  $1.traducao;
+	$$.traducao =  "\t"+$1.traducao;
 }
 
 
@@ -239,7 +240,53 @@ E	:	E '+' E {
 			$$.traducao =   $1.traducao  + $3.traducao + "\n\t" + "int " + Tabela[i].tempVar +  " = " + Tabela[i-1].tempVar + " / " + Tabela[i-2].tempVar +";";	
 			i++;
 		}
-		| '(' E ')'        { $$ .traducao= $2.traducao ; }		
+		| '(' E ')'        { $$ .traducao= "\n\t("+ $2.traducao + ")"; 
+		}|E TK_MAIOR_IGUAL E 		{
+			Tabela.push_back(node());
+			Tabela[i].tempVar = geraVariavel2(i);
+			Tabela[i].tipo = "boolean";
+			if(Tabela[i-2].valor >= Tabela[i-1].valor){
+				Tabela[i].valor = "true";
+			}else{Tabela[i].valor = "false";}
+			$$.traducao = Tabela[i].valor + "\n";
+			i++;
+		}| E '>' E 		{
+			Tabela.push_back(node());
+			Tabela[i].tempVar = geraVariavel2(i);
+			Tabela[i].tipo = "boolean";
+			if(Tabela[i-2].valor > Tabela[i-1].valor){
+				Tabela[i].valor = "true";
+			}else{Tabela[i].valor = "false";}
+			$$.traducao = Tabela[i].valor+ "\n";
+			i++;
+		}|E TK_MENOR_IGUAL E 		{
+			Tabela.push_back(node());
+			Tabela[i].tempVar = geraVariavel2(i);
+			Tabela[i].tipo = "boolean";
+			if(Tabela[i-2].valor <= Tabela[i-1].valor){
+				Tabela[i].valor = "true";
+			}else{Tabela[i].valor = "false";}
+			$$.traducao = Tabela[i].valor+ "\n";
+			i++;
+		}|E '<' E 		{
+			Tabela.push_back(node());
+			Tabela[i].tempVar = geraVariavel2(i);
+			Tabela[i].tipo = "boolean";
+			if(Tabela[i-2].valor < Tabela[i-1].valor){
+				Tabela[i].valor = "true";
+			}else{Tabela[i].valor = "false";}
+			$$.traducao = Tabela[i].valor+ "\n";
+			i++;
+		}|E TK_DIFERENTE E 		{
+			Tabela.push_back(node());
+			Tabela[i].tempVar = geraVariavel2(i);
+			Tabela[i].tipo = "boolean";
+			if(Tabela[i-2].valor != Tabela[i-1].valor){
+				Tabela[i].valor = "true";
+			}else{Tabela[i].valor = "false";}
+			$$.traducao = Tabela[i].valor+ "\n";
+			i++;
+		}
 		| VALOR_OP   { $$.traducao=  $1.traducao; }
 			;
 
@@ -285,6 +332,7 @@ VALOR_OP:  TK_DECIMAL {
 
 
 #include "lex.yy.c"
+
 
 int yyparse();
 

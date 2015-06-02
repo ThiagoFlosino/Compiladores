@@ -22,9 +22,16 @@ struct node {
 	string tempVar;
 	string valor;
 };
+struct nodeTemp{
+	string tempVar;
+	string valor;
+};
 
 int i = 0;
+int temp = 0;
 string teste;
+string print;
+string retorno;
 
 string geraVariavel(int i, string tipo){
 	stringstream var;
@@ -32,9 +39,16 @@ string geraVariavel(int i, string tipo){
 	return var.str();
 }
 
+string geraVariavel2(int i){
+	stringstream var;
+	var << "temp_" << i;
+	return var.str();
+}
+
 int yylex(void);
 void yyerror(string);
 vector<node> Tabela;
+vector<nodeTemp> tabelaTemp;
 
 %}
 
@@ -44,7 +58,6 @@ vector<node> Tabela;
 
 %start S
 
-%define api.value.type {double}
 %token NUM
 %left '-' '+'
 %left '*' '/'
@@ -72,7 +85,7 @@ COMANDOS	: COMANDO ';'COMANDOS{
 			|{$$.traducao = "";}
 			;
 
-COMANDO 	: exp
+COMANDO 	: AUX
 		|DECLARACAO
 		|ATRIBUICAO
 		;	
@@ -166,25 +179,25 @@ ATRIBUICAO :TK_ID TK_IGUAL VALOR{
 				$$.traducao =  "\n\t" + $1.label + $2.label + $3.traducao + ";";
 			};
 
-exp:     exp '+' exp        { $$.traducao = $1.traducao + $3.traducao;      }
-		| exp '-' exp        { $$.traducao = "\n\t" + $1.traducao + "-" + $3.traducao;      }
-		| exp '*' exp        { $$.traducao = "\n\t" + $1.traducao + "*" + $3.traducao;      }
-		| exp '/' exp        { $$.traducao = "\n\t" + $1.traducao + "/" + $3.traducao;      }
-		| '(' exp ')'        { $$ .traducao= $2.traducao ; }
-;
 
-E		: E '+' E
-			{
-				$$.traducao = $1.traducao + $3.traducao + "\ta = b + c;\n";
-			}			
-			|TK_N_DECIMAL
-			{
-				$$.traducao = "\ta = " + $1.traducao + ";\n";
-			}
-			|TK_ID
-			{
-				$$.traducao = "\tVariavel = " + $1.label + ";\n";
-			}
+AUX: E{	
+		tabelaTemp.push_back(nodeTemp());
+		tabelaTemp[temp].tempVar = geraVariavel2(temp);
+		tabelaTemp[temp].valor = $1.traducao;
+		retorno = retorno + tabelaTemp[temp].tempVar;
+		print = print + "\t"+tabelaTemp[temp].tempVar + " = " +$1.traducao +";\n";
+		temp++;
+	}
+	;
+
+E:		AUX '+' E {
+			$$.traducao =  print + "\t" + geraVariavel2(temp) + "=" + retorno;
+		}
+		| AUX '-' E        { $$.traducao = "\n\t" + $1.traducao + "-" + $3.traducao;      }
+		| AUX '*' E        { $$.traducao = "\n\t" + $1.traducao + "*" + $3.traducao;      }
+		| AUX '/' E        { $$.traducao = "\n\t" + $1.traducao + "/" + $3.traducao;      }
+		| '(' E ')'        { $$ .traducao= $2.traducao ; }		
+		| VALOR
 			;
 
 
