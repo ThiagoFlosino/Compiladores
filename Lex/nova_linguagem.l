@@ -27,11 +27,9 @@ hex 				{yylval.label = yytext;return TK_TIPO_HEX;}
 "\n"					{}
 "="				{yylval.label = yytext; return	TK_IGUAL;}
 -------Tipos
-{DECIMAL}				{yylval.traducao = yytext; return TK_DECIMAL;}
--{DECIMAL}              {yylval.traducao = yytext; return TK_N_DECIMAL;}
+{DECIMAL}|-{DECIMAL}				{yylval.traducao = yytext; return TK_DECIMAL;}
 {HEX}					{yylval.traducao = yytext; return TK_HEX;; }
-{FLOAT}					{yylval.traducao = yytext;return TK_FLOAT;}
--{FLOAT}				{printf("encontrei um  -- FLOAT \n"); }
+{FLOAT}|-{FLOAT}					{yylval.traducao = yytext;return TK_FLOAT;}
 {STRING}				{yylval.traducao = yytext; return TK_STRING;}
 {DELIM}					{}
 
@@ -98,7 +96,7 @@ hex 				{yylval.label = yytext;return TK_TIPO_HEX;}
 
 
 -------Operadores
-[+\-*/]		{return *yytext; }
+[+\-*/]		{yylval.label = yytext; return TK_OPERADORES;}
 "^"										{printf("encontrei o ^ \n");}
 "&"										{printf("encontrei o & \n");}
 "!"										{printf("encontrei o ! \n");}

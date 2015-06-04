@@ -49,6 +49,7 @@ vector<node> Tabela;
 %token TK_DECIMAL TK_N_DECIMAL TK_FLOAT TK_HEX TK_STRING //Valores
 %token TK_MAIOR_IGUAL TK_IGUAL_IGUAL TK_MENOR_IGUAL TK_DIFERENTE
 %token TK_TRUE TK_FALSE
+%token TK_OPERADORES
 
 %start S
 
@@ -81,15 +82,15 @@ COMANDOS	: COMANDO ';'COMANDOS{
 			|{$$.traducao = "";}
 			;
 
-COMANDO 	: AUX
-		|DECLARACAO
-		|ATRIBUICAO
+COMANDO 	: AUX { $$.traducao=  $1.traducao; }
+		|DECLARACAO { $$.traducao=  $1.traducao; }
+		|ATRIBUICAO { $$.traducao=  $1.traducao; }
 		;
 
-TK_TIPO: TK_TIPO_INT
-		 |TK_TIPO_FLOAT
-		 |TK_TIPO_HEX
-		 |TK_TIPO_STRING
+TK_TIPO: TK_TIPO_INT { $$.traducao=  $1.traducao; }
+		 |TK_TIPO_FLOAT { $$.traducao=  $1.traducao; }
+		 |TK_TIPO_HEX { $$.traducao=  $1.traducao; }
+		 |TK_TIPO_STRING { $$.traducao=  $1.traducao; }
 		;
 
 DECLARACAO	:TK_TIPO TK_ID{
@@ -126,71 +127,17 @@ AUX: E{
 	$$.traducao =  "\t"+$1.traducao;
 }
 
-E	:	E '+' E { 
+E	:	E TK_OPERADORES E {  
 			Tabela.push_back(node());
 			Tabela[i].tempVar = geraVariavel2(i);
-			Tabela[i].valor =  Tabela[i-1].valor + " + " + Tabela[i-2].valor;
+			Tabela[i].valor =  Tabela[i-1].valor + $2.label + Tabela[i-2].valor;
 
 			if(Tabela[i-1].tipo.compare(Tabela[i-2].tipo) == 0){
-				$$.traducao =   $1.traducao  + $3.traducao + "\n\t" + Tabela[i-1].tipo + " " + Tabela[i].tempVar +  " = " + Tabela[i-1].tempVar + " + " + Tabela[i-2].tempVar +";";	
+				$$.traducao =   $1.traducao  + $3.traducao + "\n\t" + Tabela[i-1].tipo + " " + Tabela[i].tempVar +  " = " + Tabela[i-1].tempVar + $2.label + Tabela[i-2].tempVar +";";	
 				Tabela[i].tipo = Tabela[i-1].tipo;
 			}
 			else if( (Tabela[i-1].tipo.compare("float") == 0) && (Tabela[i-2].tipo.compare("int") == 0) || (Tabela[i-1].tipo.compare("int") == 0) && (Tabela[i-2].tipo.compare("float") == 0) ){
 				$$.traducao =   $1.traducao  + $3.traducao + "\n\t" + "float " + Tabela[i].tempVar +  " = " + "(float)" + Tabela[i-1].tempVar + " + " + "(float)" + Tabela[i-2].tempVar +";";
-				Tabela[i].tipo = "float";
-			}
-			else{
-				yyerror("Tipos diferentes");
-			}	
-			i++;	
-		}
-		| E '-' E        { 
-			Tabela.push_back(node());
-			Tabela[i].tempVar = geraVariavel2(i);
-			Tabela[i].valor =  Tabela[i-1].valor + " - " + Tabela[i-2].valor;
-			
-			if(Tabela[i-1].tipo.compare(Tabela[i-2].tipo) == 0){
-				$$.traducao =   $1.traducao  + $3.traducao + "\n\t" + Tabela[i-1].tipo + " " + Tabela[i].tempVar +  " = " + Tabela[i-1].tempVar + " - " + Tabela[i-2].tempVar +";";	
-				Tabela[i].tipo = Tabela[i-1].tipo;
-			}
-			else if( (Tabela[i-1].tipo.compare("float") == 0) && (Tabela[i-2].tipo.compare("int") == 0) || (Tabela[i-1].tipo.compare("int") == 0) && (Tabela[i-2].tipo.compare("float") == 0) ){
-				$$.traducao =   $1.traducao  + $3.traducao + "\n\t" + "float " + Tabela[i].tempVar +  " = " + "(float)" + Tabela[i-1].tempVar + " - " + "(float)" + Tabela[i-2].tempVar +";";
-				Tabela[i].tipo = "float";
-			}
-			else{
-				yyerror("Tipos diferentes");
-			}	
-			i++;
-		}
-		| E '*' E        { 
-			Tabela.push_back(node());
-			Tabela[i].tempVar = geraVariavel2(i);
-			Tabela[i].valor =  Tabela[i-1].valor + " * " + Tabela[i-2].valor;
-
-			if(Tabela[i-1].tipo.compare(Tabela[i-2].tipo) == 0){
-				$$.traducao =   $1.traducao  + $3.traducao + "\n\t" + Tabela[i-1].tipo + " " + Tabela[i].tempVar +  " = " + Tabela[i-1].tempVar + " * " + Tabela[i-2].tempVar +";";	
-				Tabela[i].tipo = Tabela[i-1].tipo;
-			}
-			else if( (Tabela[i-1].tipo.compare("float") == 0) && (Tabela[i-2].tipo.compare("int") == 0) || (Tabela[i-1].tipo.compare("int") == 0) && (Tabela[i-2].tipo.compare("float") == 0) ){
-				$$.traducao =   $1.traducao  + $3.traducao + "\n\t" + "float " + Tabela[i].tempVar +  " = " + "(float)" + Tabela[i-1].tempVar + " * " + "(float)" + Tabela[i-2].tempVar +";";
-				Tabela[i].tipo = "float";
-			}
-			else{
-				yyerror("Tipos diferentes");
-			}	
-			i++;	
-		}
-		| E '/' E        { 
-			Tabela.push_back(node());
-			Tabela[i].tempVar = geraVariavel2(i);
-			Tabela[i].valor =  Tabela[i-1].valor + " / " + Tabela[i-2].valor;
-
-			if(Tabela[i-1].tipo.compare(Tabela[i-2].tipo) == 0){
-				$$.traducao =   $1.traducao  + $3.traducao + "\n\t" + Tabela[i-1].tipo + " " + Tabela[i].tempVar +  " = " + Tabela[i-1].tempVar + " / " + Tabela[i-2].tempVar +";";	
-				Tabela[i].tipo = Tabela[i-1].tipo;
-			}
-			else if( (Tabela[i-1].tipo.compare("float") == 0) && (Tabela[i-2].tipo.compare("int") == 0) || (Tabela[i-1].tipo.compare("int") == 0) && (Tabela[i-2].tipo.compare("float") == 0) ){
-				$$.traducao =   $1.traducao  + $3.traducao + "\n\t" + "float " + Tabela[i].tempVar +  " = " + "(float)" + Tabela[i-1].tempVar + " / " + "(float)" + Tabela[i-2].tempVar +";";
 				Tabela[i].tipo = "float";
 			}
 			else{
@@ -269,8 +216,9 @@ E	:	E '+' E {
 			
 			i++;
 		}	
-		| VALOR_OP   { $$.traducao=  $1.traducao; }
-		| BOOLEAN 
+		| VALOR_OP { $$.traducao=  $1.traducao; }
+		| BOOLEAN { $$.traducao=  $1.traducao; }
+		| TK_ID { $$.traducao=  $1.traducao; }
 		;
 
 BOOLEAN: TK_TRUE { 
@@ -318,7 +266,7 @@ VALOR_OP:  TK_DECIMAL {
 			Tabela[i].valor = $1.traducao;
 			Tabela[i].tipo = "float";
 
-			$$.traducao = "\n\tfloat " + Tabela[i].tempVar + " = " +  $1.traducao + ";";
+			$$.traducao = "\n\t" + Tabela[i].tempVar + " = " +  $1.traducao + ";";
 			i++;
 		 }
 		| TK_HEX { 
