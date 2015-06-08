@@ -21,6 +21,7 @@ struct node {
 	string tipo;
 	string tempVar;
 	string valor;
+	string conteudo;
 };
 
 int contVar = 0;
@@ -125,14 +126,15 @@ DECLARACAO	:TK_TIPO TK_ID{
 			}			
 			;
 			
-ATRIBUICAO :TK_ID TK_IGUAL VALOR{						
+ATRIBUICAO :TK_ID TK_IGUAL VALOR_OP{						
 				for(int i = 0; i < Tabela.size(); i++) { // Percorre o vector procurando o label da variavel.
 				   node temp = Tabela.at(i);
 				   if (temp.label.compare($1.traducao) == 0){
-				   		Tabela.at(i).tipo = $1.label;
-						Tabela.at(i).label = $2.label;			   
-				   		Tabela.at(i).valor = $3.traducao;
-				   		Tabela[i].tempVar = geraVariavel2(i);
+						Tabela.at(i).label = $1.label;
+
+						stringstream var;
+						var <<"\n\t" << Tabela.at(i).tempVar <<  " = " << Tabela.at(i).conteudo << ";";
+						Tabela.at(i).valor = var.str();
 				   }
 				}
 				$$.traducao = "";			
@@ -288,18 +290,13 @@ BOOLEAN: TK_TRUE {
 			contVar++;
 		}
 
-// Recebe todos os valores
-VALOR:  TK_DECIMAL { $$.traducao=$1.traducao; }
-		| TK_FLOAT { $$.traducao=$1.traducao; }
-		| TK_HEX { $$.traducao= $1.traducao; }
-		| TK_STRING {$$.traducao = $1.traducao;};
-
 
 // Recebe todos os valores
 VALOR_OP:  TK_DECIMAL { 
 			Tabela.push_back(node());
 			Tabela[contVar].tempVar = geraVariavel2(contVar);			
 			Tabela[contVar].tipo = "int";
+			Tabela[contVar].conteudo = $1.traducao;
 
 			stringstream var;
 			var <<"\n\t" << Tabela[contVar].tempVar << " = " << $1.traducao << ";";
