@@ -23,7 +23,7 @@ struct node {
 	string valor;
 };
 
-int i = 0;
+int contVar = 0;
 string teste;
 
 string geraVariavel(int i, string tipo){
@@ -108,10 +108,10 @@ DECLARACAO	:TK_TIPO TK_ID{
 			//$$.traducao =  "\n\t" + $1.label + " " + $2.label + ";";
 			$$.traducao = "";
 			Tabela.push_back(node());
-			Tabela[i].tipo = $1.label;
-			Tabela[i].label = $2.label;
-			Tabela[i].tempVar = geraVariavel2(i);
-			i++;
+			Tabela[contVar].tipo = $1.label;
+			Tabela[contVar].label = $2.label;
+			Tabela[contVar].tempVar = geraVariavel2(contVar);
+			contVar++;
 			}
 			|TK_TIPO TK_ID TK_IGUAL E {				
 				for(int i = 0; i < Tabela.size(); i++) { // Percorre o vector procurando o label da variavel.
@@ -146,9 +146,9 @@ AUX: E{
 
 E	:	E TK_OPERADORES_SOMA E {  
 			Tabela.push_back(node());
-			Tabela[i].tempVar = geraVariavel2(i);			
-			Tabela[i].label =  Tabela[i].tempVar;
-			Tabela[i].tipo =  "int";
+			Tabela[contVar].tempVar = geraVariavel2(contVar);			
+			Tabela[contVar].label =  Tabela[contVar].tempVar;
+			Tabela[contVar].tipo =  "int";
 
 			node temp;
 			node temp_2;
@@ -160,18 +160,19 @@ E	:	E TK_OPERADORES_SOMA E {
 				   		temp_2.tempVar = Tabela.at(i).tempVar;				   	
 				   }
 			}
-			stringstream var;
-			var <<"\n\t" << Tabela[i].tempVar <<  " = " << temp.tempVar << $2.label << temp_2.tempVar << ";";
-			Tabela[i].valor = var.str();
 
-			$$.traducao =  Tabela[i].tempVar;
-			i++;	
+			stringstream var;
+			var <<"\n\t" << Tabela[contVar].tempVar <<  " = " << temp.tempVar << $2.label << temp_2.tempVar << ";";
+			Tabela[contVar].valor = var.str();
+
+			$$.traducao =  Tabela[contVar].tempVar;
+			contVar++;	
 		}
 		|E TK_OPERADORES_MULTI E {  
 			Tabela.push_back(node());
-			Tabela[i].tempVar = geraVariavel2(i);			
-			Tabela[i].label =  Tabela[i].tempVar;
-			Tabela[i].tipo =  "int";
+			Tabela[contVar].tempVar = geraVariavel2(contVar);			
+			Tabela[contVar].label =  Tabela[contVar].tempVar;
+			Tabela[contVar].tipo =  "int";
 
 			node temp;
 			node temp_2;
@@ -184,82 +185,82 @@ E	:	E TK_OPERADORES_SOMA E {
 				   }
 			}
 			stringstream var;
-			var <<"\n\t" << Tabela[i].tempVar <<  " = " << temp.tempVar << $2.label << temp_2.tempVar << ";";
-			Tabela[i].valor = var.str();
+			var <<"\n\t" << Tabela[contVar].tempVar <<  " = " << temp.tempVar << $2.label << temp_2.tempVar << ";";
+			Tabela[contVar].valor = var.str();
 
-			$$.traducao =  Tabela[i].tempVar;
-			i++;	
+			$$.traducao =  Tabela[contVar].tempVar;
+			contVar++;	
 		}
 		| '(' E ')'        { $$ .traducao= $2.traducao ; 
 		}|E TK_MAIOR_IGUAL E 		{
 			Tabela.push_back(node());
-			Tabela[i].tempVar = geraVariavel2(i);
-			Tabela[i].tipo = "boolean";
-			if(Tabela[i-2].valor >= Tabela[i-1].valor){
-				Tabela[i].valor = "true";
-			}else{Tabela[i].valor = "false";}
-			$$.traducao = $1.traducao  + $3.traducao + "\n\t" + Tabela[i].tempVar + " = " + Tabela[i-2].tempVar + " >= " + Tabela[i-1].tempVar +";\n";
-			i++;
+			Tabela[contVar].tempVar = geraVariavel2(contVar);
+			Tabela[contVar].tipo = "boolean";
+			if(Tabela[contVar-2].valor >= Tabela[contVar-1].valor){
+				Tabela[contVar].valor = "true";
+			}else{Tabela[contVar].valor = "false";}
+			$$.traducao = $1.traducao  + $3.traducao + "\n\t" + Tabela[contVar].tempVar + " = " + Tabela[contVar-2].tempVar + " >= " + Tabela[contVar-1].tempVar +";\n";
+			contVar++;
 		}| E '>' E 		{
 			Tabela.push_back(node());
-			Tabela[i].tempVar = geraVariavel2(i);
-			Tabela[i].tipo = "boolean";
-			if(Tabela[i-2].valor > Tabela[i-1].valor){
-				Tabela[i].valor = "true";
-			}else{Tabela[i].valor = "false";}
-			$$.traducao = $1.traducao  + $3.traducao + "\n\t" + Tabela[i].tempVar + " = " + Tabela[i-2].tempVar + " > " + Tabela[i-1].tempVar +";\n";
-			i++;
+			Tabela[contVar].tempVar = geraVariavel2(contVar);
+			Tabela[contVar].tipo = "boolean";
+			if(Tabela[contVar-2].valor > Tabela[contVar-1].valor){
+				Tabela[contVar].valor = "true";
+			}else{Tabela[contVar].valor = "false";}
+			$$.traducao = $1.traducao  + $3.traducao + "\n\t" + Tabela[contVar].tempVar + " = " + Tabela[contVar-2].tempVar + " > " + Tabela[contVar-1].tempVar +";\n";
+			contVar++;
 		}|E TK_MENOR_IGUAL E 		{
 			Tabela.push_back(node());
-			Tabela[i].tempVar = geraVariavel2(i);
-			Tabela[i].tipo = "boolean";
-			if(Tabela[i-2].valor <= Tabela[i-1].valor){
-				Tabela[i].valor = "true";
-			}else{Tabela[i].valor = "false";}
-			$$.traducao = $1.traducao  + $3.traducao + "\n\t" + Tabela[i].tempVar + " = " + Tabela[i-2].tempVar  + " <= " + Tabela[i-1].tempVar + ";\n";
-			i++;
+			Tabela[contVar].tempVar = geraVariavel2(contVar);
+			Tabela[contVar].tipo = "boolean";
+			if(Tabela[contVar-2].valor <= Tabela[contVar-1].valor){
+				Tabela[contVar].valor = "true";
+			}else{Tabela[contVar].valor = "false";}
+			$$.traducao = $1.traducao  + $3.traducao + "\n\t" + Tabela[contVar].tempVar + " = " + Tabela[contVar-2].tempVar  + " <= " + Tabela[contVar-1].tempVar + ";\n";
+			contVar++;
 		}|E '<' E 		{
 			Tabela.push_back(node());
-			Tabela[i].tempVar = geraVariavel2(i);
-			Tabela[i].tipo = "boolean";
-			if(Tabela[i-2].valor < Tabela[i-1].valor){
-				Tabela[i].valor = "true";
-			}else{Tabela[i].valor = "false";}
-			$$.traducao = $1.traducao  + $3.traducao + "\n\t" + Tabela[i].tempVar + " = " + Tabela[i-2].tempVar  + " < " + Tabela[i-1].tempVar + ";\n";
-			i++;
+			Tabela[contVar].tempVar = geraVariavel2(contVar);
+			Tabela[contVar].tipo = "boolean";
+			if(Tabela[contVar-2].valor < Tabela[contVar-1].valor){
+				Tabela[contVar].valor = "true";
+			}else{Tabela[contVar].valor = "false";}
+			$$.traducao = $1.traducao  + $3.traducao + "\n\t" + Tabela[contVar].tempVar + " = " + Tabela[contVar-2].tempVar  + " < " + Tabela[contVar-1].tempVar + ";\n";
+			contVar++;
 		}|E TK_DIFERENTE E 		{
 			Tabela.push_back(node());
-			Tabela[i].tempVar = geraVariavel2(i);
-			Tabela[i].tipo = "boolean";
-			if(Tabela[i-2].valor != Tabela[i-1].valor){
-				Tabela[i].valor = "true";
-			}else{Tabela[i].valor = "false";}
-			$$.traducao = $1.traducao  + $3.traducao + "\n\t" + Tabela[i].tempVar + " = " + Tabela[i-2].tempVar  + " != " + Tabela[i-1].tempVar + ";\n";
-			i++;
+			Tabela[contVar].tempVar = geraVariavel2(contVar);
+			Tabela[contVar].tipo = "boolean";
+			if(Tabela[contVar-2].valor != Tabela[contVar-1].valor){
+				Tabela[contVar].valor = "true";
+			}else{Tabela[contVar].valor = "false";}
+			$$.traducao = $1.traducao  + $3.traducao + "\n\t" + Tabela[contVar].tempVar + " = " + Tabela[contVar-2].tempVar  + " != " + Tabela[contVar-1].tempVar + ";\n";
+			contVar++;
 		}	
 		|E TK_AND E {
 			Tabela.push_back(node());
-			Tabela[i].tempVar = geraVariavel2(i);
-			Tabela[i].valor =  Tabela[i-1].valor + " && " + Tabela[i-2].valor;
+			Tabela[contVar].tempVar = geraVariavel2(contVar);
+			Tabela[contVar].valor =  Tabela[contVar-1].valor + " && " + Tabela[contVar-2].valor;
 
-			if(Tabela[i-1].tipo.compare(Tabela[i-2].tipo) == 0){
-				$$.traducao =   $1.traducao  + $3.traducao + "\n\t" + Tabela[i-1].tipo + " " + Tabela[i].tempVar +  " = " + Tabela[i-1].tempVar + " && " + Tabela[i-2].tempVar +";";	
-				Tabela[i].tipo = Tabela[i-1].tipo;
+			if(Tabela[contVar-1].tipo.compare(Tabela[contVar-2].tipo) == 0){
+				$$.traducao =   $1.traducao  + $3.traducao + "\n\t" + Tabela[contVar-1].tipo + " " + Tabela[contVar].tempVar +  " = " + Tabela[contVar-1].tempVar + " && " + Tabela[contVar-2].tempVar +";";	
+				Tabela[contVar].tipo = Tabela[contVar-1].tipo;
 			}			
 			else{
 				yyerror("Tipos diferentes");
 			}	
-			i++;
+			contVar++;
 		}	
 		|E TK_OR E {
 			Tabela.push_back(node());
-			Tabela[i].tempVar = geraVariavel2(i);
-			Tabela[i].valor =  Tabela[i-1].valor + " || " + Tabela[i-2].valor;
+			Tabela[contVar].tempVar = geraVariavel2(contVar);
+			Tabela[contVar].valor =  Tabela[contVar-1].valor + " || " + Tabela[contVar-2].valor;
 			
-			$$.traducao =   $1.traducao  + $3.traducao + "\n\t" + Tabela[i-1].tipo + " " + Tabela[i].tempVar +  " = " + Tabela[i-1].tempVar + " || " + Tabela[i-2].tempVar +";";	
-			Tabela[i].tipo = Tabela[i-1].tipo;
+			$$.traducao =   $1.traducao  + $3.traducao + "\n\t" + Tabela[contVar-1].tipo + " " + Tabela[contVar].tempVar +  " = " + Tabela[contVar-1].tempVar + " || " + Tabela[contVar-2].tempVar +";";	
+			Tabela[contVar].tipo = Tabela[contVar-1].tipo;
 			
-			i++;
+			contVar++;
 		}	
 		| VALOR_OP { $$.traducao=  $1.traducao; }
 		| BOOLEAN { $$.traducao=  $1.traducao; }
@@ -268,23 +269,23 @@ E	:	E TK_OPERADORES_SOMA E {
 
 BOOLEAN: TK_TRUE { 
 			Tabela.push_back(node());
-			Tabela[i].tempVar = geraVariavel2(i);
-			Tabela[i].valor = $1.traducao;
-			Tabela[i].tipo = "bool";
+			Tabela[contVar].tempVar = geraVariavel2(contVar);
+			Tabela[contVar].valor = $1.traducao;
+			Tabela[contVar].tipo = "bool";
 
 
-			$$.traducao =  "\n\tbool " + Tabela[i].tempVar + " = " + $1.label + ";";
-			i++;
+			$$.traducao =  "\n\tbool " + Tabela[contVar].tempVar + " = " + $1.label + ";";
+			contVar++;
 		}
 		 |TK_FALSE{ 
 			Tabela.push_back(node());
-			Tabela[i].tempVar = geraVariavel2(i);
-			Tabela[i].valor = $1.traducao;
-			Tabela[i].tipo = "bool";
+			Tabela[contVar].tempVar = geraVariavel2(contVar);
+			Tabela[contVar].valor = $1.traducao;
+			Tabela[contVar].tipo = "bool";
 
 
-			$$.traducao =  "\n\tbool " + Tabela[i].tempVar + " = " + $1.label + ";";
-			i++;
+			$$.traducao =  "\n\tbool " + Tabela[contVar].tempVar + " = " + $1.label + ";";
+			contVar++;
 		}
 
 // Recebe todos os valores
@@ -297,52 +298,52 @@ VALOR:  TK_DECIMAL { $$.traducao=$1.traducao; }
 // Recebe todos os valores
 VALOR_OP:  TK_DECIMAL { 
 			Tabela.push_back(node());
-			Tabela[i].tempVar = geraVariavel2(i);			
-			Tabela[i].tipo = "int";
+			Tabela[contVar].tempVar = geraVariavel2(contVar);			
+			Tabela[contVar].tipo = "int";
 
 			stringstream var;
-			var <<"\n\t" << Tabela[i].tempVar << " = " << $1.traducao << ";";
-			Tabela[i].valor = var.str();
+			var <<"\n\t" << Tabela[contVar].tempVar << " = " << $1.traducao << ";";
+			Tabela[contVar].valor = var.str();
 			
-			$$.traducao = Tabela[i].tempVar;
-			i++;
+			$$.traducao = Tabela[contVar].tempVar;
+			contVar++;
 		}
 
 		| TK_FLOAT { 
 			Tabela.push_back(node());
-			Tabela[i].tempVar = geraVariavel2(i);			
-			Tabela[i].tipo = "float";
+			Tabela[contVar].tempVar = geraVariavel2(contVar);			
+			Tabela[contVar].tipo = "float";
 
 			stringstream var;
-			var <<"\n\t" << Tabela[i].tempVar << " = " << $1.traducao << ";";
-			Tabela[i].valor = var.str();
+			var <<"\n\t" << Tabela[contVar].tempVar << " = " << $1.traducao << ";";
+			Tabela[contVar].valor = var.str();
 			
-			$$.traducao = Tabela[i].tempVar;
-			i++;
+			$$.traducao = Tabela[contVar].tempVar;
+			contVar++;
 		 }
 		| TK_HEX { 
 			Tabela.push_back(node());
-			Tabela[i].tempVar = geraVariavel2(i);			
-			Tabela[i].tipo = "hex";
+			Tabela[contVar].tempVar = geraVariavel2(contVar);			
+			Tabela[contVar].tipo = "hex";
 
 			stringstream var;
-			var <<"\n\t" << Tabela[i].tempVar << " = " << $1.traducao << ";";
-			Tabela[i].valor = var.str();
+			var <<"\n\t" << Tabela[contVar].tempVar << " = " << $1.traducao << ";";
+			Tabela[contVar].valor = var.str();
 			
-			$$.traducao = Tabela[i].tempVar;
-			i++;
+			$$.traducao = Tabela[contVar].tempVar;
+			contVar++;
 		 }
 		| TK_STRING {
 			Tabela.push_back(node());
-			Tabela[i].tempVar = geraVariavel2(i);			
-			Tabela[i].tipo = "string";
+			Tabela[contVar].tempVar = geraVariavel2(contVar);			
+			Tabela[contVar].tipo = "string";
 
 			stringstream var;
-			var <<"\n\t" << Tabela[i].tempVar << " = " << $1.traducao << ";";
-			Tabela[i].valor = var.str();
+			var <<"\n\t" << Tabela[contVar].tempVar << " = " << $1.traducao << ";";
+			Tabela[contVar].valor = var.str();
 			
-			$$.traducao = Tabela[i].tempVar;
-			i++;
+			$$.traducao = Tabela[contVar].tempVar;
+			contVar++;
 		};
 %%
 
