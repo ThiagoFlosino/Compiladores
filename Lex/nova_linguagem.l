@@ -96,7 +96,8 @@ hex 				{yylval.label = yytext;return TK_TIPO_HEX;}
 
 
 -------Operadores
-[+\-*/]		{yylval.label = yytext; return TK_OPERADORES;}
+[+\-]		{yylval.label = yytext; return TK_OPERADORES_SOMA;}
+[*/]		{yylval.label = yytext; return TK_OPERADORES_MULTI;}
 "^"										{printf("encontrei o ^ \n");}
 "&"										{printf("encontrei o & \n");}
 "!"										{printf("encontrei o ! \n");}

@@ -49,15 +49,13 @@ vector<node> Tabela;
 %token TK_DECIMAL TK_N_DECIMAL TK_FLOAT TK_HEX TK_STRING //Valores
 %token TK_MAIOR_IGUAL TK_IGUAL_IGUAL TK_MENOR_IGUAL TK_DIFERENTE
 %token TK_TRUE TK_FALSE
-%token TK_OPERADORES
+%token TK_OPERADORES_SOMA TK_OPERADORES_MULTI
 
 %start S
 
-%token NUM 
+%left TK_OPERADORES_SOMA
+%left TK_OPERADORES_MULTI
 %left TK_AND TK_OR
-%left '-' '+'
-%left '*' '/'
-%precedence NEG   /* negation--unary minus */
 %right '^'        /* exponentiation */
 %nonassoc TK_IGUAL 
 
@@ -72,7 +70,20 @@ S 			: TK_TIPO_INT TK_MAIN '(' ')' BLOCO
 
 BLOCO		: '{' COMANDOS '}'
 			{
-				$$.traducao = $2.traducao;
+				//declara as variaveis no inicio
+				stringstream var;
+				for(int i = 0; i < Tabela.size(); i++) { // Percorre o vector procurando o label da variavel.
+					var << "\n\t" << Tabela.at(i).tipo << " " << Tabela.at(i).tempVar << ";";
+				}
+				string t = var.str();
+
+				stringstream valores;
+				for(int i = 0; i < Tabela.size(); i++) { // Percorre o vector procurando o label da variavel.
+					valores << Tabela.at(i).valor;		
+				}
+				string z = valores.str();
+
+				$$.traducao = t + z + $2.traducao;
 			}
 			;
 
@@ -94,55 +105,89 @@ TK_TIPO: TK_TIPO_INT { $$.traducao=  $1.traducao; }
 		;
 
 DECLARACAO	:TK_TIPO TK_ID{
-
-			$$.traducao =  "\n\t" + $1.label + " " + $2.label + ";";
+			//$$.traducao =  "\n\t" + $1.label + " " + $2.label + ";";
+			$$.traducao = "";
 			Tabela.push_back(node());
 			Tabela[i].tipo = $1.label;
 			Tabela[i].label = $2.label;
-			Tabela[i].tempVar = geraVariavel(i,$1.label);
+			Tabela[i].tempVar = geraVariavel2(i);
 			i++;
 			}
-			|TK_TIPO TK_ID TK_IGUAL E {
-				$$.traducao =  $4.traducao;				
+			|TK_TIPO TK_ID TK_IGUAL E {				
+				for(int i = 0; i < Tabela.size(); i++) { // Percorre o vector procurando o label da variavel.
+				   node temp = Tabela.at(i);
+				   if (temp.tempVar.compare($4.traducao) == 0){
+						Tabela.at(i).label = $2.label;
+				   }
+				}	
+				$$.traducao = "";
+					
 			}			
 			;
 			
 ATRIBUICAO :TK_ID TK_IGUAL VALOR{						
 				for(int i = 0; i < Tabela.size(); i++) { // Percorre o vector procurando o label da variavel.
 				   node temp = Tabela.at(i);
-				   if (temp.label.compare($3.traducao) != 0){				   
+				   if (temp.label.compare($1.traducao) == 0){
+				   		Tabela.at(i).tipo = $1.label;
+						Tabela.at(i).label = $2.label;			   
 				   		Tabela.at(i).valor = $3.traducao;
-				   		//teste = Tabela.at(i).valor; --> linha utilizada para verificar se estava funcionando;
-				   		//Faz a atribuição a variavel depois que ela foi declarada. Ex: var = 2;
+				   		Tabela[i].tempVar = geraVariavel2(i);
 				   }
-				}			
-				$$.traducao =  "\n\t" + $1.label + $2.label + $3.traducao + ";";
+				}
+				$$.traducao = "";			
+				//$$.traducao =  "\n\t" + $1.label + $2.label + $3.traducao + ";";
 			}
 			;
 
 AUX: E{
-	Tabela.push_back(node());
-	Tabela[i].tempVar = geraVariavel2(i);	
-	i++;
-	$$.traducao =  "\t"+$1.traducao;
+	$$.traducao = "";
 }
 
-E	:	E TK_OPERADORES E {  
+E	:	E TK_OPERADORES_SOMA E {  
 			Tabela.push_back(node());
-			Tabela[i].tempVar = geraVariavel2(i);
-			Tabela[i].valor =  Tabela[i-1].valor + $2.label + Tabela[i-2].valor;
+			Tabela[i].tempVar = geraVariavel2(i);			
+			Tabela[i].label =  Tabela[i].tempVar;
+			Tabela[i].tipo =  "int";
 
-			if(Tabela[i-1].tipo.compare(Tabela[i-2].tipo) == 0){
-				$$.traducao =   $1.traducao  + $3.traducao + "\n\t" + Tabela[i-1].tipo + " " + Tabela[i].tempVar +  " = " + Tabela[i-1].tempVar + $2.label + Tabela[i-2].tempVar +";";	
-				Tabela[i].tipo = Tabela[i-1].tipo;
+			node temp;
+			node temp_2;
+			for(int i = 0; i < Tabela.size(); i++) { // Percorre o vector procurando o label da variavel.					
+				   if ((Tabela.at(i).tempVar.compare($1.traducao) == 0) || (Tabela.at(i).label.compare($1.traducao) == 0)){				   
+				   		temp.tempVar = Tabela.at(i).tempVar;	 	
+				   }
+				   if ((Tabela.at(i).tempVar.compare($3.traducao) == 0) || (Tabela.at(i).label.compare($3.traducao) == 0)){	
+				   		temp_2.tempVar = Tabela.at(i).tempVar;				   	
+				   }
 			}
-			else if( (Tabela[i-1].tipo.compare("float") == 0) && (Tabela[i-2].tipo.compare("int") == 0) || (Tabela[i-1].tipo.compare("int") == 0) && (Tabela[i-2].tipo.compare("float") == 0) ){
-				$$.traducao =   $1.traducao  + $3.traducao + "\n\t" + "float " + Tabela[i].tempVar +  " = " + "(float)" + Tabela[i-1].tempVar + " + " + "(float)" + Tabela[i-2].tempVar +";";
-				Tabela[i].tipo = "float";
+			stringstream var;
+			var <<"\n\t" << Tabela[i].tempVar <<  " = " << temp.tempVar << $2.label << temp_2.tempVar << ";";
+			Tabela[i].valor = var.str();
+
+			$$.traducao =  Tabela[i].tempVar;
+			i++;	
+		}
+		|E TK_OPERADORES_MULTI E {  
+			Tabela.push_back(node());
+			Tabela[i].tempVar = geraVariavel2(i);			
+			Tabela[i].label =  Tabela[i].tempVar;
+			Tabela[i].tipo =  "int";
+
+			node temp;
+			node temp_2;
+			for(int i = 0; i < Tabela.size(); i++) { // Percorre o vector procurando o label da variavel.					
+				   if ((Tabela.at(i).tempVar.compare($1.traducao) == 0) || (Tabela.at(i).label.compare($1.traducao) == 0)){				   
+				   		temp.tempVar = Tabela.at(i).tempVar;	 	
+				   }
+				   if ((Tabela.at(i).tempVar.compare($3.traducao) == 0) || (Tabela.at(i).label.compare($3.traducao) == 0)){	
+				   		temp_2.tempVar = Tabela.at(i).tempVar;				   	
+				   }
 			}
-			else{
-				yyerror("Tipos diferentes");
-			}	
+			stringstream var;
+			var <<"\n\t" << Tabela[i].tempVar <<  " = " << temp.tempVar << $2.label << temp_2.tempVar << ";";
+			Tabela[i].valor = var.str();
+
+			$$.traducao =  Tabela[i].tempVar;
 			i++;	
 		}
 		| '(' E ')'        { $$ .traducao= $2.traducao ; 
@@ -218,7 +263,7 @@ E	:	E TK_OPERADORES E {
 		}	
 		| VALOR_OP { $$.traducao=  $1.traducao; }
 		| BOOLEAN { $$.traducao=  $1.traducao; }
-		| TK_ID { $$.traducao=  $1.traducao; }
+		| TK_ID { $$.traducao=  $1.label; }
 		;
 
 BOOLEAN: TK_TRUE { 
@@ -252,39 +297,51 @@ VALOR:  TK_DECIMAL { $$.traducao=$1.traducao; }
 // Recebe todos os valores
 VALOR_OP:  TK_DECIMAL { 
 			Tabela.push_back(node());
-			Tabela[i].tempVar = geraVariavel2(i);
-			Tabela[i].valor = $1.traducao;
+			Tabela[i].tempVar = geraVariavel2(i);			
 			Tabela[i].tipo = "int";
 
-			$$.traducao = "\n\tint " + Tabela[i].tempVar + " = " +  $1.traducao + ";";
+			stringstream var;
+			var <<"\n\t" << Tabela[i].tempVar << " = " << $1.traducao << ";";
+			Tabela[i].valor = var.str();
+			
+			$$.traducao = Tabela[i].tempVar;
 			i++;
 		}
 
 		| TK_FLOAT { 
 			Tabela.push_back(node());
-			Tabela[i].tempVar = geraVariavel2(i);
-			Tabela[i].valor = $1.traducao;
+			Tabela[i].tempVar = geraVariavel2(i);			
 			Tabela[i].tipo = "float";
 
-			$$.traducao = "\n\t" + Tabela[i].tempVar + " = " +  $1.traducao + ";";
+			stringstream var;
+			var <<"\n\t" << Tabela[i].tempVar << " = " << $1.traducao << ";";
+			Tabela[i].valor = var.str();
+			
+			$$.traducao = Tabela[i].tempVar;
 			i++;
 		 }
 		| TK_HEX { 
 			Tabela.push_back(node());
-			Tabela[i].tempVar = geraVariavel2(i);
-			Tabela[i].valor = $1.traducao;
+			Tabela[i].tempVar = geraVariavel2(i);			
 			Tabela[i].tipo = "hex";
 
-			$$.traducao = "\n\thex " + Tabela[i].tempVar + " = " +  $1.traducao + ";";
+			stringstream var;
+			var <<"\n\t" << Tabela[i].tempVar << " = " << $1.traducao << ";";
+			Tabela[i].valor = var.str();
+			
+			$$.traducao = Tabela[i].tempVar;
 			i++;
 		 }
 		| TK_STRING {
 			Tabela.push_back(node());
-			Tabela[i].tempVar = geraVariavel2(i);
-			Tabela[i].valor = $1.traducao;
+			Tabela[i].tempVar = geraVariavel2(i);			
 			Tabela[i].tipo = "string";
 
-			$$.traducao = "\n\tstring " + Tabela[i].tempVar + " = " +  $1.traducao + ";";
+			stringstream var;
+			var <<"\n\t" << Tabela[i].tempVar << " = " << $1.traducao << ";";
+			Tabela[i].valor = var.str();
+			
+			$$.traducao = Tabela[i].tempVar;
 			i++;
 		};
 %%

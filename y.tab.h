@@ -64,11 +64,10 @@ extern int yydebug;
     TK_DIFERENTE = 274,
     TK_TRUE = 275,
     TK_FALSE = 276,
-    TK_OPERADORES = 277,
-    NUM = 278,
+    TK_OPERADORES_SOMA = 277,
+    TK_OPERADORES_MULTI = 278,
     TK_AND = 279,
-    TK_OR = 280,
-    NEG = 281
+    TK_OR = 280
   };
 #endif
 /* Tokens.  */
@@ -91,11 +90,10 @@ extern int yydebug;
 #define TK_DIFERENTE 274
 #define TK_TRUE 275
 #define TK_FALSE 276
-#define TK_OPERADORES 277
-#define NUM 278
+#define TK_OPERADORES_SOMA 277
+#define TK_OPERADORES_MULTI 278
 #define TK_AND 279
 #define TK_OR 280
-#define NEG 281
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
