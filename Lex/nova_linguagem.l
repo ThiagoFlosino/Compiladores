@@ -92,6 +92,7 @@ hex 				{yylval.label = yytext;return TK_TIPO_HEX;}
 "//"									{printf("encontrei o comentario de uma linha \n");}
 "/*"									{printf("encontrei o abre comentario varias linhas \n");}
 "*/"									{printf("encontrei o fecha omentario varias linhas \n");}
+"<-"									{yylval.label = yytext; return TK_CONCAT;}
 
 
 

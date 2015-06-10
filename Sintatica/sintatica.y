@@ -1,6 +1,6 @@
 %{
 #include <iostream>
-#include <string>
+#include <string.h>
 #include <sstream>
 #include <stdio.h>
 #include <vector>
@@ -51,6 +51,7 @@ vector<node> Tabela;
 %token TK_MAIOR_IGUAL TK_IGUAL_IGUAL TK_MENOR_IGUAL TK_DIFERENTE
 %token TK_TRUE TK_FALSE
 %token TK_OPERADORES_SOMA TK_OPERADORES_MULTI
+%token TK_CONCAT
 
 %start S
 
@@ -263,6 +264,30 @@ E	:	E TK_OPERADORES_SOMA E {
 			Tabela[contVar].tipo = Tabela[contVar-1].tipo;
 			
 			contVar++;
+		}
+		| E TK_CONCAT E {
+			Tabela.push_back(node());
+			Tabela[contVar].tempVar = geraVariavel2(contVar);			
+			Tabela[contVar].label =  Tabela[contVar].tempVar;
+			Tabela[contVar].tipo =  "char";
+
+			node temp;
+			node temp_2;
+			for(int i = 0; i < Tabela.size(); i++) { // Percorre o vector procurando o label da variavel.					
+				   if ((Tabela.at(i).tempVar.compare($1.traducao) == 0) || (Tabela.at(i).label.compare($1.traducao) == 0)){				   
+				   		temp.tempVar = Tabela.at(i).tempVar;	 	
+				   }
+				   if ((Tabela.at(i).tempVar.compare($3.traducao) == 0) || (Tabela.at(i).label.compare($3.traducao) == 0)){	
+				   		temp_2.tempVar = Tabela.at(i).tempVar;				   	
+				   }
+			}
+
+			stringstream var;
+			var <<"\n\t" << Tabela[contVar].tempVar <<  " = " << temp.tempVar << $2.label << temp_2.tempVar << ";";
+			Tabela[contVar].valor = var.str();
+
+			$$.traducao =  Tabela[contVar].tempVar;
+			contVar++;	
 		}	
 		| VALOR_OP { $$.traducao=  $1.traducao; }
 		| BOOLEAN { $$.traducao=  $1.traducao; }
@@ -332,11 +357,19 @@ VALOR_OP:  TK_DECIMAL {
 		 }
 		| TK_STRING {
 			Tabela.push_back(node());
-			Tabela[contVar].tempVar = geraVariavel2(contVar);			
-			Tabela[contVar].tipo = "string";
+			Tabela[contVar].tempVar = geraVariavel2(contVar);	
+
+			Tabela[contVar].tipo = "char";
+			int tamanho;
+			tamanho = $1.traducao.size();
+			
+			//strcpy(Tabela[contVar].tempVar, $1.traducao);
+
+
 
 			stringstream var;
-			var <<"\n\t" << Tabela[contVar].tempVar << " = " << $1.traducao << ";";
+			var <<"\n\t" << "char[" << tamanho << "] " <<  Tabela[contVar].tempVar << ";";
+			var <<"\n\t" << "strcpy(" << Tabela[contVar].tempVar <<" , " << $1.traducao << ");";
 			Tabela[contVar].valor = var.str();
 			
 			$$.traducao = Tabela[contVar].tempVar;
