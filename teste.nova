@@ -1,9 +1,6 @@
 int main(){
 
-<<<<<<< HEAD
-	string i = "testeeee";
-	string j = "google";
-=======
-  1+ 1.5;
->>>>>>> 881209f61f3692620abbc4b30e4a4959793b74a6
+  string i = "var";
+  int j = "fs";
+  i + j;
 }

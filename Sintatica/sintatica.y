@@ -51,7 +51,7 @@ void criaTabelaTipos(){
     TabelaTipos["float+string"] = "string";
     TabelaTipos["float+char"] = "ERRO";
     TabelaTipos["float+hex"] = "ERRO";
-    TabelaTipos["string+int"] = "string";
+    TabelaTipos["string+int"] = "ERRO";
     TabelaTipos["string+float"] = "string";
     TabelaTipos["string+string"] = "string";
     TabelaTipos["string+char"] = "string";
@@ -78,7 +78,7 @@ void criaTabelaTipos(){
     TabelaTipos["float-string"] = "string";
 	TabelaTipos["float-char"] = "ERRO";
     TabelaTipos["float-hex"] = "ERRO";
-    TabelaTipos["string-int"] = "string";
+    TabelaTipos["string-int"] = "ERRO";
     TabelaTipos["string-float"] = "string";
     TabelaTipos["string-string"] = "string";
     TabelaTipos["string-char"] = "string";
@@ -97,7 +97,7 @@ void criaTabelaTipos(){
     //Tabela de Operação para multiplicação
     TabelaTipos["int*int"] = "int";
     TabelaTipos["int*float"] = "float";
-    TabelaTipos["int*string"] = "string";
+    TabelaTipos["int*string"] = "ERRO";
     TabelaTipos["int*char"] = "string"; //Verificar se será esse tipo mesmo para essa operação
 	TabelaTipos["int*hex"] = "ERRO";
 
@@ -175,11 +175,9 @@ string verificaTipo(string tipoA, string operador, string tipoB){
 %token TK_MAIOR_IGUAL TK_IGUAL_IGUAL TK_MENOR_IGUAL TK_DIFERENTE
 %token TK_TRUE TK_FALSE
 %token TK_OPERADORES_SOMA TK_OPERADORES_MULTI
-<<<<<<< HEAD
 %token TK_CONCAT
 
-=======
->>>>>>> 881209f61f3692620abbc4b30e4a4959793b74a6
+
 %start S
 %left TK_OPERADORES_SOMA
 %left TK_OPERADORES_MULTI
@@ -278,9 +276,18 @@ E	:	E TK_OPERADORES_SOMA E {
 				   }
 			}
 			stringstream var;
-			if(temp.tipo != "" && temp_2.tipo != ""){
+			if(temp.tipo == temp_2.tipo){
+				var <<"\n\t" << Tabela[contVar].tempVar  << "=" << temp.tempVar << $2.label << temp_2.tempVar << ";";
+				Tabela[contVar].tipo =  temp.tipo;
+			}
+			else if(temp.tipo != "" && temp_2.tipo != ""){
 				tipoRetorno = verificaTipo(temp.tipo,$2.label,temp_2.tipo);
-				var <<"\n\t" << Tabela[contVar].tempVar  << "=" << "("+tipoRetorno+")"<< temp.tempVar << $2.label << temp_2.tempVar << ";";
+				if(tipoRetorno == temp.tipo){
+					var << "\n\t("+tipoRetorno+")"<< temp_2.tempVar << ";";
+				}else{
+					var << "\n\t("+tipoRetorno+")"<< temp.tempVar << ";";
+				}				
+				var << "\n\t" << Tabela[contVar].tempVar << "=" << temp.tempVar << $2.label << temp_2.tempVar << ";";
 				Tabela[contVar].tipo =  tipoRetorno;
 			}else if(temp.tipo != ""){
 				Tabela[contVar].tipo =  temp.tipo;
@@ -400,8 +407,12 @@ E	:	E TK_OPERADORES_SOMA E {
 				   }
 			}
 
+			int tamanho;
+			tamanho = temp.tempVar.size() + temp_2.tempVar.size();
+
 			stringstream var;
-			var <<"\n\t" << Tabela[contVar].tempVar <<  " = " << temp.tempVar << $2.label << temp_2.tempVar << ";";
+			var <<"\n\t" << "strcpy(" << Tabela[contVar].tempVar <<" , " << temp.tempVar << ");";
+			var <<"\n\t" << "strcat(" << Tabela[contVar].tempVar <<" , " << temp_2.tempVar << ");";
 			Tabela[contVar].valor = var.str();
 
 			$$.traducao =  Tabela[contVar].tempVar;
@@ -464,7 +475,6 @@ VALOR_OP:  TK_DECIMAL {
 		 }
 		| TK_STRING {
 			Tabela.push_back(node());
-<<<<<<< HEAD
 			Tabela[contVar].tempVar = geraVariavel2(contVar);	
 
 			Tabela[contVar].tipo = "char";
@@ -474,11 +484,6 @@ VALOR_OP:  TK_DECIMAL {
 			//strcpy(Tabela[contVar].tempVar, $1.traducao);
 
 
-
-=======
-			Tabela[contVar].tempVar = geraVariavel2(contVar);			
-			Tabela[contVar].tipo = "string";
->>>>>>> 881209f61f3692620abbc4b30e4a4959793b74a6
 			stringstream var;
 			var <<"\n\t" << "char[" << tamanho << "] " <<  Tabela[contVar].tempVar << ";";
 			var <<"\n\t" << "strcpy(" << Tabela[contVar].tempVar <<" , " << $1.traducao << ");";
