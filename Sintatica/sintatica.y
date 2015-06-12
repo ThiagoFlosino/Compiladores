@@ -324,49 +324,8 @@ E	:	E TK_OPERADORES_SOMA E {
 			$$.traducao =  Tabela[contVar].tempVar;
 			contVar++;	
 		}
-		| '(' E ')'        { $$ .traducao= $2.traducao ; 
-		}|E TK_MAIOR_IGUAL E 		{
-			Tabela.push_back(node());
-			Tabela[contVar].tempVar = geraVariavel2(contVar);
-			Tabela[contVar].tipo = "int";
-
-			procuraTemp($1.traducao, $3.traducao);
-
-			
-			stringstream var;
-			var <<"\n\t" << Tabela[contVar].tempVar <<  " = " << temp.tempVar << $2.label << temp_2.tempVar << ";";
-			Tabela[contVar].valor = var.str();
-			$$.traducao =  Tabela[contVar].tempVar;
-			contVar++;
+		| '(' E ')'        { $$ .traducao= $2.traducao ;
 		}| E TK_OPERADORES_LOGICOS E 		{
-			Tabela.push_back(node());
-			Tabela[contVar].tempVar = geraVariavel2(contVar);
-			Tabela[contVar].tipo = "int";
-
-			procuraTemp($1.traducao, $3.traducao);
-
-			
-			stringstream var;
-			var <<"\n\t" << Tabela[contVar].tempVar <<  " = " << temp.tempVar << $2.label << temp_2.tempVar << ";";
-			Tabela[contVar].valor = var.str();
-			$$.traducao =  Tabela[contVar].tempVar;
-			contVar++;
-
-
-		}|E TK_MENOR_IGUAL E 		{
-			Tabela.push_back(node());
-			Tabela[contVar].tempVar = geraVariavel2(contVar);
-			Tabela[contVar].tipo = "int";
-
-			procuraTemp($1.traducao, $3.traducao);
-
-			
-			stringstream var;
-			var <<"\n\t" << Tabela[contVar].tempVar <<  " = " << temp.tempVar << $2.label << temp_2.tempVar << ";";
-			Tabela[contVar].valor = var.str();
-			$$.traducao =  Tabela[contVar].tempVar;
-			contVar++;
-		}|E TK_DIFERENTE E 		{
 			Tabela.push_back(node());
 			Tabela[contVar].tempVar = geraVariavel2(contVar);
 			Tabela[contVar].tipo = "int";
@@ -431,7 +390,7 @@ E	:	E TK_OPERADORES_SOMA E {
 
 			$$.traducao =  Tabela[contVar].tempVar;
 			contVar++;	
-		}	
+		}
 		| VALOR_OP { $$.traducao=  $1.traducao; }
 		| BOOLEAN { $$.traducao=  $1.traducao; }
 		| TK_ID { $$.traducao=  $1.label; }

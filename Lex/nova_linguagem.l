@@ -57,7 +57,6 @@ hex 				{yylval.label = yytext;return TK_TIPO_HEX;}
 "elseif"                        	{printf("encontrei o elseif \n");}
 "for"					{printf("encontrei o for \n");}
 "for each"				{printf("encontrei o for each \n");}
-
 "if" 					{printf("encontrei o if \n"); }
 "go to"					{printf("enconteri o go To \n");}
 "include"                               {printf("encontrei o include \n");}
@@ -75,10 +74,10 @@ hex 				{yylval.label = yytext;return TK_TIPO_HEX;}
 "while"									{printf("encontrei o while \n");}
 
 -------Delimitadores
-"!="									{yylval.label = yytext; return TK_DIFERENTE;}
+"!="									{yylval.label = yytext; return TK_OPERADORES_LOGICOS;}
 "=="									{yylval.label = yytext; return TK_IGUAL_IGUAL;}
-"<="									{yylval.label = yytext; return TK_MENOR_IGUAL;}
-">="									{yylval.label = yytext; return TK_MAIOR_IGUAL;}
+"<="									{yylval.label = yytext; return TK_OPERADORES_LOGICOS;}
+">="									{yylval.label = yytext; return TK_OPERADORES_LOGICOS;}
 [(){}[\];,] 							{return *yytext;}
 ":"									{printf("encontrei o  : \n"); }
 "\'"									{printf("encontrei a aspas simples \n"); }

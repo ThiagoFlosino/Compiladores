@@ -67,8 +67,10 @@ extern int yydebug;
     TK_OPERADORES_SOMA = 277,
     TK_OPERADORES_MULTI = 278,
     TK_CONCAT = 279,
-    TK_AND = 280,
-    TK_OR = 281
+    TK_MAIOR = 280,
+    TK_OPERADORES_LOGICOS = 281,
+    TK_AND = 282,
+    TK_OR = 283
   };
 #endif
 /* Tokens.  */
@@ -94,8 +96,10 @@ extern int yydebug;
 #define TK_OPERADORES_SOMA 277
 #define TK_OPERADORES_MULTI 278
 #define TK_CONCAT 279
-#define TK_AND 280
-#define TK_OR 281
+#define TK_MAIOR 280
+#define TK_OPERADORES_LOGICOS 281
+#define TK_AND 282
+#define TK_OR 283
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
