@@ -80,8 +80,6 @@ hex 				{yylval.label = yytext;return TK_TIPO_HEX;}
 "<="									{yylval.label = yytext; return TK_MENOR_IGUAL;}
 ">="									{yylval.label = yytext; return TK_MAIOR_IGUAL;}
 [(){}[\];,] 							{return *yytext;}
-">"										{return *yytext;}
-"<"										{return *yytext;}
 ":"									{printf("encontrei o  : \n"); }
 "\'"									{printf("encontrei a aspas simples \n"); }
 "\""									{printf("encontrei a aspas duplas \n"); }
@@ -99,6 +97,7 @@ hex 				{yylval.label = yytext;return TK_TIPO_HEX;}
 -------Operadores
 [+\-]		{yylval.label = yytext; return TK_OPERADORES_SOMA;}
 [*/]		{yylval.label = yytext; return TK_OPERADORES_MULTI;}
+[<>]        {yylval.label = yytext; return TK_OPERADORES_LOGICOS;}
 "^"										{printf("encontrei o ^ \n");}
 "&"										{printf("encontrei o & \n");}
 "!"										{printf("encontrei o ! \n");}

@@ -14,6 +14,7 @@ struct atributos {
 	string label;
 	string traducao;
 };
+
 struct node {
 	string label;
 	string tipo;
@@ -21,6 +22,7 @@ struct node {
 	string valor;
 	string conteudo;
 };
+
 int contVar = 0;
 string teste;
 string geraVariavel(int i, string tipo){
@@ -36,6 +38,8 @@ string geraVariavel2(int i){
 int yylex(void);
 void yyerror(string);
 vector<node> Tabela;
+struct node temp;
+struct node temp_2;
 map<string, string> TabelaTipos;
 
 void criaTabelaTipos(){	
@@ -166,6 +170,17 @@ string verificaTipo(string tipoA, string operador, string tipoB){
 	return retorno;
 }
 
+void procuraTemp(string traducao, string traducao_2){
+	for(int i = 0; i < Tabela.size(); i++) { // Percorre o vector procurando o label da variavel.					
+		if ((Tabela.at(i).tempVar.compare(traducao) == 0) || (Tabela.at(i).label.compare(traducao) == 0)){				   
+			temp = Tabela.at(i);	 	
+		}
+		if ((Tabela.at(i).tempVar.compare(traducao_2) == 0) || (Tabela.at(i).label.compare(traducao_2) == 0)){	
+			temp_2 = Tabela.at(i);				   	
+		}
+	}
+}
+
 
 
 %}
@@ -176,19 +191,23 @@ string verificaTipo(string tipoA, string operador, string tipoB){
 %token TK_TRUE TK_FALSE
 %token TK_OPERADORES_SOMA TK_OPERADORES_MULTI
 %token TK_CONCAT
+%token TK_MAIOR
+%token TK_OPERADORES_LOGICOS
 
 
 %start S
 %left TK_OPERADORES_SOMA
 %left TK_OPERADORES_MULTI
 %left TK_AND TK_OR
+%left TK_MAIOR
+%left TK_OPERADORES_LOGICOS
 %right '^'        /* exponentiation */
 %nonassoc TK_IGUAL 
 %%
 S 			: TK_TIPO_INT TK_MAIN '(' ')' BLOCO
 			{
 				cout << "/*Compilador Nova Linguagem*/\n" << 
-				"#include <iostream>\n#include<string.h>\n#include<stdio.h>\n#define true 1; \n#define false 0; \nint main(void)\n{\n" << $5.traducao << "\n\treturn 0;\n}" << endl; 
+				"#include <stdio.h>\n#include<string.h>\n#define true 1; \n#define false 0; \nint main(void)\n{\n" << $5.traducao << "\n\treturn 0;\n}" << endl; 
 			}
 			;
 BLOCO		: '{' COMANDOS '}'
@@ -263,18 +282,10 @@ E	:	E TK_OPERADORES_SOMA E {
 			Tabela.push_back(node());
 			Tabela[contVar].tempVar = geraVariavel2(contVar);		
 			Tabela[contVar].label =  Tabela[contVar].tempVar;
+		
+			procuraTemp($1.traducao, $3.traducao);
 
-			node temp;
-			node temp_2;
 			string tipoRetorno;
-			for(int i = 0; i < Tabela.size(); i++) { // Percorre o vector procurando o label da variavel.					
-				   if ((Tabela.at(i).tempVar.compare($1.traducao) == 0) || (Tabela.at(i).label.compare($1.traducao) == 0)){				   
-				   		temp = Tabela.at(i);	 	
-				   }
-				   if ((Tabela.at(i).tempVar.compare($3.traducao) == 0) || (Tabela.at(i).label.compare($3.traducao) == 0)){	
-				   		temp_2 = Tabela.at(i);				   	
-				   }
-			}
 			stringstream var;
 			if(temp.tipo == temp_2.tipo){
 				var <<"\n\t" << Tabela[contVar].tempVar  << "=" << temp.tempVar << $2.label << temp_2.tempVar << ";";
@@ -304,16 +315,9 @@ E	:	E TK_OPERADORES_SOMA E {
 			Tabela[contVar].tempVar = geraVariavel2(contVar);			
 			Tabela[contVar].label =  Tabela[contVar].tempVar;
 			Tabela[contVar].tipo =  "int";
-			node temp;
-			node temp_2;
-			for(int i = 0; i < Tabela.size(); i++) { // Percorre o vector procurando o label da variavel.					
-				   if ((Tabela.at(i).tempVar.compare($1.traducao) == 0) || (Tabela.at(i).label.compare($1.traducao) == 0)){				   
-				   		temp.tempVar = Tabela.at(i).tempVar;	 	
-				   }
-				   if ((Tabela.at(i).tempVar.compare($3.traducao) == 0) || (Tabela.at(i).label.compare($3.traducao) == 0)){	
-				   		temp_2.tempVar = Tabela.at(i).tempVar;				   	
-				   }
-			}
+
+			procuraTemp($1.traducao, $3.traducao);
+
 			stringstream var;
 			var <<"\n\t" << Tabela[contVar].tempVar <<  " = " << temp.tempVar << $2.label << temp_2.tempVar << ";";
 			Tabela[contVar].valor = var.str();
@@ -324,47 +328,56 @@ E	:	E TK_OPERADORES_SOMA E {
 		}|E TK_MAIOR_IGUAL E 		{
 			Tabela.push_back(node());
 			Tabela[contVar].tempVar = geraVariavel2(contVar);
-			Tabela[contVar].tipo = "boolean";
-			if(Tabela[contVar-2].valor >= Tabela[contVar-1].valor){
-				Tabela[contVar].valor = "true";
-			}else{Tabela[contVar].valor = "false";}
-			$$.traducao = $1.traducao  + $3.traducao + "\n\t" + Tabela[contVar].tempVar + " = " + Tabela[contVar-2].tempVar + " >= " + Tabela[contVar-1].tempVar +";\n";
+			Tabela[contVar].tipo = "int";
+
+			procuraTemp($1.traducao, $3.traducao);
+
+			
+			stringstream var;
+			var <<"\n\t" << Tabela[contVar].tempVar <<  " = " << temp.tempVar << $2.label << temp_2.tempVar << ";";
+			Tabela[contVar].valor = var.str();
+			$$.traducao =  Tabela[contVar].tempVar;
 			contVar++;
-		}| E '>' E 		{
+		}| E TK_OPERADORES_LOGICOS E 		{
 			Tabela.push_back(node());
 			Tabela[contVar].tempVar = geraVariavel2(contVar);
-			Tabela[contVar].tipo = "boolean";
-			if(Tabela[contVar-2].valor > Tabela[contVar-1].valor){
-				Tabela[contVar].valor = "true";
-			}else{Tabela[contVar].valor = "false";}
-			$$.traducao = $1.traducao  + $3.traducao + "\n\t" + Tabela[contVar].tempVar + " = " + Tabela[contVar-2].tempVar + " > " + Tabela[contVar-1].tempVar +";\n";
+			Tabela[contVar].tipo = "int";
+
+			procuraTemp($1.traducao, $3.traducao);
+
+			
+			stringstream var;
+			var <<"\n\t" << Tabela[contVar].tempVar <<  " = " << temp.tempVar << $2.label << temp_2.tempVar << ";";
+			Tabela[contVar].valor = var.str();
+			$$.traducao =  Tabela[contVar].tempVar;
 			contVar++;
+
+
 		}|E TK_MENOR_IGUAL E 		{
 			Tabela.push_back(node());
 			Tabela[contVar].tempVar = geraVariavel2(contVar);
-			Tabela[contVar].tipo = "boolean";
-			if(Tabela[contVar-2].valor <= Tabela[contVar-1].valor){
-				Tabela[contVar].valor = "true";
-			}else{Tabela[contVar].valor = "false";}
-			$$.traducao = $1.traducao  + $3.traducao + "\n\t" + Tabela[contVar].tempVar + " = " + Tabela[contVar-2].tempVar  + " <= " + Tabela[contVar-1].tempVar + ";\n";
-			contVar++;
-		}|E '<' E 		{
-			Tabela.push_back(node());
-			Tabela[contVar].tempVar = geraVariavel2(contVar);
-			Tabela[contVar].tipo = "boolean";
-			if(Tabela[contVar-2].valor < Tabela[contVar-1].valor){
-				Tabela[contVar].valor = "true";
-			}else{Tabela[contVar].valor = "false";}
-			$$.traducao = $1.traducao  + $3.traducao + "\n\t" + Tabela[contVar].tempVar + " = " + Tabela[contVar-2].tempVar  + " < " + Tabela[contVar-1].tempVar + ";\n";
+			Tabela[contVar].tipo = "int";
+
+			procuraTemp($1.traducao, $3.traducao);
+
+			
+			stringstream var;
+			var <<"\n\t" << Tabela[contVar].tempVar <<  " = " << temp.tempVar << $2.label << temp_2.tempVar << ";";
+			Tabela[contVar].valor = var.str();
+			$$.traducao =  Tabela[contVar].tempVar;
 			contVar++;
 		}|E TK_DIFERENTE E 		{
 			Tabela.push_back(node());
 			Tabela[contVar].tempVar = geraVariavel2(contVar);
-			Tabela[contVar].tipo = "boolean";
-			if(Tabela[contVar-2].valor != Tabela[contVar-1].valor){
-				Tabela[contVar].valor = "true";
-			}else{Tabela[contVar].valor = "false";}
-			$$.traducao = $1.traducao  + $3.traducao + "\n\t" + Tabela[contVar].tempVar + " = " + Tabela[contVar-2].tempVar  + " != " + Tabela[contVar-1].tempVar + ";\n";
+			Tabela[contVar].tipo = "int";
+
+			procuraTemp($1.traducao, $3.traducao);
+
+			
+			stringstream var;
+			var <<"\n\t" << Tabela[contVar].tempVar <<  " = " << temp.tempVar << $2.label << temp_2.tempVar << ";";
+			Tabela[contVar].valor = var.str();
+			$$.traducao =  Tabela[contVar].tempVar;
 			contVar++;
 		}	
 		|E TK_AND E {
@@ -411,6 +424,7 @@ E	:	E TK_OPERADORES_SOMA E {
 			tamanho = temp.tempVar.size() + temp_2.tempVar.size();
 
 			stringstream var;
+			var << "\n\t" << Tabela[contVar].tipo << " " << Tabela[contVar].tempVar << "[" << tamanho << "]" << ";";
 			var <<"\n\t" << "strcpy(" << Tabela[contVar].tempVar <<" , " << temp.tempVar << ");";
 			var <<"\n\t" << "strcat(" << Tabela[contVar].tempVar <<" , " << temp_2.tempVar << ");";
 			Tabela[contVar].valor = var.str();
@@ -485,7 +499,7 @@ VALOR_OP:  TK_DECIMAL {
 
 
 			stringstream var;
-			var <<"\n\t" << "char[" << tamanho << "] " <<  Tabela[contVar].tempVar << ";";
+			var <<"\n\t" << "char " <<  Tabela[contVar].tempVar << "[" << tamanho << "]" << ";";
 			var <<"\n\t" << "strcpy(" << Tabela[contVar].tempVar <<" , " << $1.traducao << ");";
 			Tabela[contVar].valor = var.str();
 			
