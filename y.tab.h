@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.2.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
 /* Bison interface for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2013 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -49,28 +49,29 @@ extern int yydebug;
     TK_TIPO_FLOAT = 259,
     TK_TIPO_STRING = 260,
     TK_TIPO_HEX = 261,
-    TK_MAIN = 262,
-    TK_ERRO = 263,
-    TK_ID = 264,
-    TK_IGUAL = 265,
-    TK_DECIMAL = 266,
-    TK_N_DECIMAL = 267,
-    TK_FLOAT = 268,
-    TK_HEX = 269,
-    TK_STRING = 270,
-    TK_MAIOR_IGUAL = 271,
-    TK_IGUAL_IGUAL = 272,
-    TK_MENOR_IGUAL = 273,
-    TK_DIFERENTE = 274,
-    TK_TRUE = 275,
-    TK_FALSE = 276,
-    TK_OPERADORES_SOMA = 277,
-    TK_OPERADORES_MULTI = 278,
-    TK_CONCAT = 279,
-    TK_MAIOR = 280,
-    TK_OPERADORES_LOGICOS = 281,
-    TK_AND = 282,
-    TK_OR = 283
+    TK_TIPO_BOOL = 262,
+    TK_MAIN = 263,
+    TK_ERRO = 264,
+    TK_ID = 265,
+    TK_IGUAL = 266,
+    TK_DECIMAL = 267,
+    TK_N_DECIMAL = 268,
+    TK_FLOAT = 269,
+    TK_HEX = 270,
+    TK_STRING = 271,
+    TK_MAIOR_IGUAL = 272,
+    TK_IGUAL_IGUAL = 273,
+    TK_MENOR_IGUAL = 274,
+    TK_DIFERENTE = 275,
+    TK_TRUE = 276,
+    TK_FALSE = 277,
+    TK_OPERADORES_SOMA = 278,
+    TK_OPERADORES_MULTI = 279,
+    TK_CONCAT = 280,
+    TK_MAIOR = 281,
+    TK_OPERADORES_LOGICOS = 282,
+    TK_AND = 283,
+    TK_OR = 284
   };
 #endif
 /* Tokens.  */
@@ -78,28 +79,29 @@ extern int yydebug;
 #define TK_TIPO_FLOAT 259
 #define TK_TIPO_STRING 260
 #define TK_TIPO_HEX 261
-#define TK_MAIN 262
-#define TK_ERRO 263
-#define TK_ID 264
-#define TK_IGUAL 265
-#define TK_DECIMAL 266
-#define TK_N_DECIMAL 267
-#define TK_FLOAT 268
-#define TK_HEX 269
-#define TK_STRING 270
-#define TK_MAIOR_IGUAL 271
-#define TK_IGUAL_IGUAL 272
-#define TK_MENOR_IGUAL 273
-#define TK_DIFERENTE 274
-#define TK_TRUE 275
-#define TK_FALSE 276
-#define TK_OPERADORES_SOMA 277
-#define TK_OPERADORES_MULTI 278
-#define TK_CONCAT 279
-#define TK_MAIOR 280
-#define TK_OPERADORES_LOGICOS 281
-#define TK_AND 282
-#define TK_OR 283
+#define TK_TIPO_BOOL 262
+#define TK_MAIN 263
+#define TK_ERRO 264
+#define TK_ID 265
+#define TK_IGUAL 266
+#define TK_DECIMAL 267
+#define TK_N_DECIMAL 268
+#define TK_FLOAT 269
+#define TK_HEX 270
+#define TK_STRING 271
+#define TK_MAIOR_IGUAL 272
+#define TK_IGUAL_IGUAL 273
+#define TK_MENOR_IGUAL 274
+#define TK_DIFERENTE 275
+#define TK_TRUE 276
+#define TK_FALSE 277
+#define TK_OPERADORES_SOMA 278
+#define TK_OPERADORES_MULTI 279
+#define TK_CONCAT 280
+#define TK_MAIOR 281
+#define TK_OPERADORES_LOGICOS 282
+#define TK_AND 283
+#define TK_OR 284
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED

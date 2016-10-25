@@ -1,8 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.0.2.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
 /* Bison implementation for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2013 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -44,7 +44,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "3.0.2"
+#define YYBISON_VERSION "3.0.4"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -145,7 +145,7 @@ void criaTabelaTipos(){
     TabelaTipos["float-int"] = "float";
     TabelaTipos["float-float"] = "float";
     TabelaTipos["float-string"] = "string";
-	TabelaTipos["float-char"] = "ERRO";
+    TabelaTipos["float-char"] = "ERRO";
     TabelaTipos["float-hex"] = "ERRO";
     TabelaTipos["string-int"] = "ERRO";
     TabelaTipos["string-float"] = "string";
@@ -168,7 +168,7 @@ void criaTabelaTipos(){
     TabelaTipos["int*float"] = "float";
     TabelaTipos["int*string"] = "ERRO";
     TabelaTipos["int*char"] = "string"; //Verificar se será esse tipo mesmo para essa operação
-	TabelaTipos["int*hex"] = "ERRO";
+    TabelaTipos["int*hex"] = "ERRO";
 
     TabelaTipos["float*int"] = "float";
     TabelaTipos["float*float"] = "float";
@@ -288,28 +288,29 @@ extern int yydebug;
     TK_TIPO_FLOAT = 259,
     TK_TIPO_STRING = 260,
     TK_TIPO_HEX = 261,
-    TK_MAIN = 262,
-    TK_ERRO = 263,
-    TK_ID = 264,
-    TK_IGUAL = 265,
-    TK_DECIMAL = 266,
-    TK_N_DECIMAL = 267,
-    TK_FLOAT = 268,
-    TK_HEX = 269,
-    TK_STRING = 270,
-    TK_MAIOR_IGUAL = 271,
-    TK_IGUAL_IGUAL = 272,
-    TK_MENOR_IGUAL = 273,
-    TK_DIFERENTE = 274,
-    TK_TRUE = 275,
-    TK_FALSE = 276,
-    TK_OPERADORES_SOMA = 277,
-    TK_OPERADORES_MULTI = 278,
-    TK_CONCAT = 279,
-    TK_MAIOR = 280,
-    TK_OPERADORES_LOGICOS = 281,
-    TK_AND = 282,
-    TK_OR = 283
+    TK_TIPO_BOOL = 262,
+    TK_MAIN = 263,
+    TK_ERRO = 264,
+    TK_ID = 265,
+    TK_IGUAL = 266,
+    TK_DECIMAL = 267,
+    TK_N_DECIMAL = 268,
+    TK_FLOAT = 269,
+    TK_HEX = 270,
+    TK_STRING = 271,
+    TK_MAIOR_IGUAL = 272,
+    TK_IGUAL_IGUAL = 273,
+    TK_MENOR_IGUAL = 274,
+    TK_DIFERENTE = 275,
+    TK_TRUE = 276,
+    TK_FALSE = 277,
+    TK_OPERADORES_SOMA = 278,
+    TK_OPERADORES_MULTI = 279,
+    TK_CONCAT = 280,
+    TK_MAIOR = 281,
+    TK_OPERADORES_LOGICOS = 282,
+    TK_AND = 283,
+    TK_OR = 284
   };
 #endif
 /* Tokens.  */
@@ -317,28 +318,29 @@ extern int yydebug;
 #define TK_TIPO_FLOAT 259
 #define TK_TIPO_STRING 260
 #define TK_TIPO_HEX 261
-#define TK_MAIN 262
-#define TK_ERRO 263
-#define TK_ID 264
-#define TK_IGUAL 265
-#define TK_DECIMAL 266
-#define TK_N_DECIMAL 267
-#define TK_FLOAT 268
-#define TK_HEX 269
-#define TK_STRING 270
-#define TK_MAIOR_IGUAL 271
-#define TK_IGUAL_IGUAL 272
-#define TK_MENOR_IGUAL 273
-#define TK_DIFERENTE 274
-#define TK_TRUE 275
-#define TK_FALSE 276
-#define TK_OPERADORES_SOMA 277
-#define TK_OPERADORES_MULTI 278
-#define TK_CONCAT 279
-#define TK_MAIOR 280
-#define TK_OPERADORES_LOGICOS 281
-#define TK_AND 282
-#define TK_OR 283
+#define TK_TIPO_BOOL 262
+#define TK_MAIN 263
+#define TK_ERRO 264
+#define TK_ID 265
+#define TK_IGUAL 266
+#define TK_DECIMAL 267
+#define TK_N_DECIMAL 268
+#define TK_FLOAT 269
+#define TK_HEX 270
+#define TK_STRING 271
+#define TK_MAIOR_IGUAL 272
+#define TK_IGUAL_IGUAL 273
+#define TK_MENOR_IGUAL 274
+#define TK_DIFERENTE 275
+#define TK_TRUE 276
+#define TK_FALSE 277
+#define TK_OPERADORES_SOMA 278
+#define TK_OPERADORES_MULTI 279
+#define TK_CONCAT 280
+#define TK_MAIOR 281
+#define TK_OPERADORES_LOGICOS 282
+#define TK_AND 283
+#define TK_OR 284
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -356,7 +358,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 360 "y.tab.c" /* yacc.c:358  */
+#line 362 "y.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -598,10 +600,10 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  4
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   72
+#define YYLAST   76
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  35
+#define YYNTOKENS  36
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  12
 /* YYNRULES -- Number of rules.  */
@@ -612,7 +614,7 @@ union yyalloc
 /* YYTRANSLATE[YYX] -- Symbol number corresponding to YYX as returned
    by yylex, with out-of-bounds checking.  */
 #define YYUNDEFTOK  2
-#define YYMAXUTOK   283
+#define YYMAXUTOK   284
 
 #define YYTRANSLATE(YYX)                                                \
   ((unsigned int) (YYX) <= YYMAXUTOK ? yytranslate[YYX] : YYUNDEFTOK)
@@ -625,15 +627,15 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-      30,    31,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,    34,
+      31,    32,     2,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,    35,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,    29,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,    30,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,    32,     2,    33,     2,     2,     2,     2,
+       2,     2,     2,    33,     2,    34,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -649,7 +651,7 @@ static const yytype_uint8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
-      25,    26,    27,    28
+      25,    26,    27,    28,    29
 };
 
 #if YYDEBUG
@@ -669,8 +671,8 @@ static const yytype_uint16 yyrline[] =
 static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "TK_TIPO_INT", "TK_TIPO_FLOAT",
-  "TK_TIPO_STRING", "TK_TIPO_HEX", "TK_MAIN", "TK_ERRO", "TK_ID",
-  "TK_IGUAL", "TK_DECIMAL", "TK_N_DECIMAL", "TK_FLOAT", "TK_HEX",
+  "TK_TIPO_STRING", "TK_TIPO_HEX", "TK_TIPO_BOOL", "TK_MAIN", "TK_ERRO",
+  "TK_ID", "TK_IGUAL", "TK_DECIMAL", "TK_N_DECIMAL", "TK_FLOAT", "TK_HEX",
   "TK_STRING", "TK_MAIOR_IGUAL", "TK_IGUAL_IGUAL", "TK_MENOR_IGUAL",
   "TK_DIFERENTE", "TK_TRUE", "TK_FALSE", "TK_OPERADORES_SOMA",
   "TK_OPERADORES_MULTI", "TK_CONCAT", "TK_MAIOR", "TK_OPERADORES_LOGICOS",
@@ -687,8 +689,8 @@ static const yytype_uint16 yytoknum[] =
 {
        0,   256,   257,   258,   259,   260,   261,   262,   263,   264,
      265,   266,   267,   268,   269,   270,   271,   272,   273,   274,
-     275,   276,   277,   278,   279,   280,   281,   282,   283,    94,
-      40,    41,   123,   125,    59
+     275,   276,   277,   278,   279,   280,   281,   282,   283,   284,
+      94,    40,    41,   123,   125,    59
 };
 # endif
 
@@ -706,12 +708,12 @@ static const yytype_uint16 yytoknum[] =
      STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-       6,     7,    13,   -15,   -20,   -12,     1,    -3,   -20,   -20,
-     -20,   -20,   -20,    24,   -20,   -20,   -20,   -20,   -20,   -20,
-      17,   -17,     2,    26,   -20,   -20,   -20,    28,   -20,   -20,
-      52,   -20,    18,   -20,    -3,    29,    17,    17,    17,    17,
-      17,    17,   -20,   -20,   -20,    17,    34,    44,    28,    19,
-     -19,   -19,    28
+       2,     6,    10,   -15,   -20,   -17,    -7,    -3,   -20,   -20,
+     -20,   -20,   -20,    16,   -20,   -20,   -20,   -20,   -20,   -20,
+      20,    -1,   -18,    27,   -20,   -20,   -20,    31,   -20,   -20,
+      55,   -20,    21,   -20,    -3,    28,    20,    20,    20,    20,
+      20,    20,   -20,   -20,   -20,    20,    37,    47,    31,    13,
+     -19,   -19,    31
 };
 
   /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -730,8 +732,8 @@ static const yytype_uint8 yydefact[] =
   /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -20,   -20,   -20,    14,   -20,   -20,   -20,   -20,   -20,   -16,
-     -20,    23
+     -20,   -20,   -20,     9,   -20,   -20,   -20,   -20,   -20,   -16,
+     -20,     1
 };
 
   /* YYDEFGOTO[NTERM-NUM].  */
@@ -746,47 +748,47 @@ static const yytype_int8 yydefgoto[] =
      number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_uint8 yytable[] =
 {
-       9,    10,    11,    12,    32,    38,    13,    39,    14,     1,
-      15,    16,    17,     4,     3,     5,    33,    18,    19,     6,
-      46,    47,    48,    49,    50,    51,    31,    20,    14,    52,
-      15,    16,    17,     7,    30,    35,    34,    18,    19,    45,
-      36,    37,    38,    38,    39,    40,    41,    20,    44,    43,
-      36,    37,    38,    42,    39,    40,    41,    37,    38,     0,
-      39,    40,    41,    14,     0,    15,    16,    17,    38,     0,
-      39,    40,    41
+       9,    10,    11,    12,    32,     1,    38,    13,    39,    14,
+       4,    15,    16,    17,     3,     6,     5,    34,    18,    19,
+      46,    47,    48,    49,    50,    51,     7,    30,    20,    52,
+      31,    42,    14,    33,    15,    16,    17,    35,    38,    45,
+       0,    18,    19,    44,    36,    37,    38,     0,    39,    40,
+      41,    20,     0,    43,    36,    37,    38,     0,    39,    40,
+      41,    37,    38,     0,    39,    40,    41,    14,     0,    15,
+      16,    17,    38,     0,    39,    40,    41
 };
 
 static const yytype_int8 yycheck[] =
 {
-       3,     4,     5,     6,    20,    24,     9,    26,    11,     3,
-      13,    14,    15,     0,     7,    30,    33,    20,    21,    31,
-      36,    37,    38,    39,    40,    41,     9,    30,    11,    45,
-      13,    14,    15,    32,    10,     9,    34,    20,    21,    10,
-      22,    23,    24,    24,    26,    27,    28,    30,    34,    31,
-      22,    23,    24,    30,    26,    27,    28,    23,    24,    -1,
-      26,    27,    28,    11,    -1,    13,    14,    15,    24,    -1,
-      26,    27,    28
+       3,     4,     5,     6,    20,     3,    25,    10,    27,    12,
+       0,    14,    15,    16,     8,    32,    31,    35,    21,    22,
+      36,    37,    38,    39,    40,    41,    33,    11,    31,    45,
+      10,    30,    12,    34,    14,    15,    16,    10,    25,    11,
+      -1,    21,    22,    34,    23,    24,    25,    -1,    27,    28,
+      29,    31,    -1,    32,    23,    24,    25,    -1,    27,    28,
+      29,    24,    25,    -1,    27,    28,    29,    12,    -1,    14,
+      15,    16,    25,    -1,    27,    28,    29
 };
 
   /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
      symbol of state STATE-NUM.  */
 static const yytype_uint8 yystos[] =
 {
-       0,     3,    36,     7,     0,    30,    31,    32,    37,     3,
-       4,     5,     6,     9,    11,    13,    14,    15,    20,    21,
-      30,    38,    39,    40,    41,    42,    43,    44,    45,    46,
-      10,     9,    44,    33,    34,     9,    22,    23,    24,    26,
-      27,    28,    46,    31,    38,    10,    44,    44,    44,    44,
-      44,    44,    44
+       0,     3,    37,     8,     0,    31,    32,    33,    38,     3,
+       4,     5,     6,    10,    12,    14,    15,    16,    21,    22,
+      31,    39,    40,    41,    42,    43,    44,    45,    46,    47,
+      11,    10,    45,    34,    35,    10,    23,    24,    25,    27,
+      28,    29,    47,    32,    39,    11,    45,    45,    45,    45,
+      45,    45,    45
 };
 
   /* YYR1[YYN] -- Symbol number of symbol that rule YYN derives.  */
 static const yytype_uint8 yyr1[] =
 {
-       0,    35,    36,    37,    38,    38,    39,    39,    39,    40,
-      40,    40,    40,    41,    41,    42,    43,    44,    44,    44,
-      44,    44,    44,    44,    44,    44,    44,    45,    45,    46,
-      46,    46,    46
+       0,    36,    37,    38,    39,    39,    40,    40,    40,    41,
+      41,    41,    41,    42,    42,    43,    44,    45,    45,    45,
+      45,    45,    45,    45,    45,    45,    45,    46,    46,    47,
+      47,    47,    47
 };
 
   /* YYR2[YYN] -- Number of symbols on the right hand side of rule YYN.  */
@@ -1477,7 +1479,7 @@ yyreduce:
 				cout << "/*Compilador Nova Linguagem*/\n" << 
 				"#include <stdio.h>\n#include<string.h>\n#define true 1; \n#define false 0; \nint main(void)\n{\n" << (yyvsp[0]).traducao << "\n\treturn 0;\n}" << endl; 
 			}
-#line 1481 "y.tab.c" /* yacc.c:1646  */
+#line 1483 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 3:
@@ -1496,7 +1498,7 @@ yyreduce:
 				string z = valores.str();
 				(yyval).traducao = t + z + (yyvsp[-1]).traducao;
 			}
-#line 1500 "y.tab.c" /* yacc.c:1646  */
+#line 1502 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
@@ -1504,55 +1506,55 @@ yyreduce:
     {
 				(yyval).traducao = (yyvsp[-2]).traducao + (yyvsp[0]).traducao;
 			}
-#line 1508 "y.tab.c" /* yacc.c:1646  */
+#line 1510 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
 #line 232 "./Sintatica/sintatica.y" /* yacc.c:1646  */
     {(yyval).traducao = "";}
-#line 1514 "y.tab.c" /* yacc.c:1646  */
+#line 1516 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
 #line 234 "./Sintatica/sintatica.y" /* yacc.c:1646  */
     { (yyval).traducao=  (yyvsp[0]).traducao; }
-#line 1520 "y.tab.c" /* yacc.c:1646  */
+#line 1522 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
 #line 235 "./Sintatica/sintatica.y" /* yacc.c:1646  */
     { (yyval).traducao=  (yyvsp[0]).traducao; }
-#line 1526 "y.tab.c" /* yacc.c:1646  */
+#line 1528 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 8:
 #line 236 "./Sintatica/sintatica.y" /* yacc.c:1646  */
     { (yyval).traducao=  (yyvsp[0]).traducao; }
-#line 1532 "y.tab.c" /* yacc.c:1646  */
+#line 1534 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
 #line 238 "./Sintatica/sintatica.y" /* yacc.c:1646  */
     { (yyval).traducao=  (yyvsp[0]).traducao; }
-#line 1538 "y.tab.c" /* yacc.c:1646  */
+#line 1540 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 10:
 #line 239 "./Sintatica/sintatica.y" /* yacc.c:1646  */
     { (yyval).traducao=  (yyvsp[0]).traducao; }
-#line 1544 "y.tab.c" /* yacc.c:1646  */
+#line 1546 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
 #line 240 "./Sintatica/sintatica.y" /* yacc.c:1646  */
     { (yyval).traducao=  (yyvsp[0]).traducao; }
-#line 1550 "y.tab.c" /* yacc.c:1646  */
+#line 1552 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 12:
 #line 241 "./Sintatica/sintatica.y" /* yacc.c:1646  */
     { (yyval).traducao=  (yyvsp[0]).traducao; }
-#line 1556 "y.tab.c" /* yacc.c:1646  */
+#line 1558 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
@@ -1566,7 +1568,7 @@ yyreduce:
 			Tabela[contVar].tempVar = geraVariavel2(contVar);
 			contVar++;
 			}
-#line 1570 "y.tab.c" /* yacc.c:1646  */
+#line 1572 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 14:
@@ -1581,7 +1583,7 @@ yyreduce:
 				(yyval).traducao = "";
 					
 			}
-#line 1585 "y.tab.c" /* yacc.c:1646  */
+#line 1587 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
@@ -1599,7 +1601,7 @@ yyreduce:
 				(yyval).traducao = "";			
 				//$$.traducao =  "\n\t" + $1.label + $2.label + $3.traducao + ";";
 			}
-#line 1603 "y.tab.c" /* yacc.c:1646  */
+#line 1605 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 16:
@@ -1607,7 +1609,7 @@ yyreduce:
     {
 	(yyval).traducao = "";
 }
-#line 1611 "y.tab.c" /* yacc.c:1646  */
+#line 1613 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 17:
@@ -1644,7 +1646,7 @@ yyreduce:
 			(yyval).traducao =  Tabela[contVar].tempVar;
 			contVar++;	
 		}
-#line 1648 "y.tab.c" /* yacc.c:1646  */
+#line 1650 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 18:
@@ -1663,14 +1665,14 @@ yyreduce:
 			(yyval).traducao =  Tabela[contVar].tempVar;
 			contVar++;	
 		}
-#line 1667 "y.tab.c" /* yacc.c:1646  */
+#line 1669 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 19:
 #line 327 "./Sintatica/sintatica.y" /* yacc.c:1646  */
     { (yyval) .traducao= (yyvsp[-1]).traducao ;
 		}
-#line 1674 "y.tab.c" /* yacc.c:1646  */
+#line 1676 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 20:
@@ -1689,7 +1691,7 @@ yyreduce:
 			(yyval).traducao =  Tabela[contVar].tempVar;
 			contVar++;
 		}
-#line 1693 "y.tab.c" /* yacc.c:1646  */
+#line 1695 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 21:
@@ -1707,7 +1709,7 @@ yyreduce:
 			}	
 			contVar++;
 		}
-#line 1711 "y.tab.c" /* yacc.c:1646  */
+#line 1713 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 22:
@@ -1722,7 +1724,7 @@ yyreduce:
 			
 			contVar++;
 		}
-#line 1726 "y.tab.c" /* yacc.c:1646  */
+#line 1728 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 23:
@@ -1756,25 +1758,25 @@ yyreduce:
 			(yyval).traducao =  Tabela[contVar].tempVar;
 			contVar++;	
 		}
-#line 1760 "y.tab.c" /* yacc.c:1646  */
+#line 1762 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 24:
 #line 394 "./Sintatica/sintatica.y" /* yacc.c:1646  */
     { (yyval).traducao=  (yyvsp[0]).traducao; }
-#line 1766 "y.tab.c" /* yacc.c:1646  */
+#line 1768 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 25:
 #line 395 "./Sintatica/sintatica.y" /* yacc.c:1646  */
     { (yyval).traducao=  (yyvsp[0]).traducao; }
-#line 1772 "y.tab.c" /* yacc.c:1646  */
+#line 1774 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 26:
 #line 396 "./Sintatica/sintatica.y" /* yacc.c:1646  */
     { (yyval).traducao=  (yyvsp[0]).label; }
-#line 1778 "y.tab.c" /* yacc.c:1646  */
+#line 1780 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 27:
@@ -1787,7 +1789,7 @@ yyreduce:
 			(yyval).traducao =  "\n\tbool " + Tabela[contVar].tempVar + " = " + (yyvsp[0]).label + ";";
 			contVar++;
 		}
-#line 1791 "y.tab.c" /* yacc.c:1646  */
+#line 1793 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 28:
@@ -1800,7 +1802,7 @@ yyreduce:
 			(yyval).traducao =  "\n\tbool " + Tabela[contVar].tempVar + " = " + (yyvsp[0]).label + ";";
 			contVar++;
 		}
-#line 1804 "y.tab.c" /* yacc.c:1646  */
+#line 1806 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 29:
@@ -1817,7 +1819,7 @@ yyreduce:
 			(yyval).traducao = Tabela[contVar].tempVar;
 			contVar++;
 		}
-#line 1821 "y.tab.c" /* yacc.c:1646  */
+#line 1823 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 30:
@@ -1833,7 +1835,7 @@ yyreduce:
 			(yyval).traducao = Tabela[contVar].tempVar;
 			contVar++;
 		 }
-#line 1837 "y.tab.c" /* yacc.c:1646  */
+#line 1839 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 31:
@@ -1849,7 +1851,7 @@ yyreduce:
 			(yyval).traducao = Tabela[contVar].tempVar;
 			contVar++;
 		 }
-#line 1853 "y.tab.c" /* yacc.c:1646  */
+#line 1855 "y.tab.c" /* yacc.c:1646  */
     break;
 
   case 32:
@@ -1873,11 +1875,11 @@ yyreduce:
 			(yyval).traducao = Tabela[contVar].tempVar;
 			contVar++;
 		}
-#line 1877 "y.tab.c" /* yacc.c:1646  */
+#line 1879 "y.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1881 "y.tab.c" /* yacc.c:1646  */
+#line 1883 "y.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires

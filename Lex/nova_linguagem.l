@@ -21,15 +21,15 @@ STRING {CHAR}?\"(\\.|[^\\"])*\"|{CHAR}?\'(\\.|[^\\'])*\'
 %%
 
 int					{yylval.label = yytext;return TK_TIPO_INT;}
-float				{yylval.label = yytext;return TK_TIPO_FLOAT;}
-string              {yylval.label = yytext;return TK_TIPO_STRING;}
-hex 				{yylval.label = yytext;return TK_TIPO_HEX;}
+float					{yylval.label = yytext;return TK_TIPO_FLOAT;}
+string					{yylval.label = yytext;return TK_TIPO_STRING;}
+hex 					{yylval.label = yytext;return TK_TIPO_HEX;}
 "\n"					{}
-"="				{yylval.label = yytext; return	TK_IGUAL;}
+"="					{yylval.label = yytext; return	TK_IGUAL;}
 -------Tipos
-{DECIMAL}|-{DECIMAL}				{yylval.traducao = yytext; return TK_DECIMAL;}
+{DECIMAL}|-{DECIMAL}			{yylval.traducao = yytext; return TK_DECIMAL;}
 {HEX}					{yylval.traducao = yytext; return TK_HEX;; }
-{FLOAT}|-{FLOAT}					{yylval.traducao = yytext;return TK_FLOAT;}
+{FLOAT}|-{FLOAT}			{yylval.traducao = yytext;return TK_FLOAT;}
 {STRING}				{yylval.traducao = yytext; return TK_STRING;}
 {DELIM}					{}
 
@@ -37,7 +37,7 @@ hex 				{yylval.label = yytext;return TK_TIPO_HEX;}
 
 -------PalavrasReservadas
 "true" 					{yylval.label = yytext; return TK_TRUE;}
-"false" 					{yylval.label = yytext; return TK_FALSE;}
+"false" 				{yylval.label = yytext; return TK_FALSE;}
 "#"                                 	{printf("encontrei o # \n");}
 "auto"					{printf("encontrei o auto \n");}
 "and"					{printf("encontrei o and \n"); }
@@ -62,61 +62,57 @@ hex 				{yylval.label = yytext;return TK_TIPO_HEX;}
 "include"                               {printf("encontrei o include \n");}
 "long"					{printf("encontrei o long \n");}
 "main"					{return TK_MAIN;}
-"or"									{printf("encontrei o OR\n ");}
-"return"								{printf("encontrei o return \n");}
-"short"									{printf("encontrei o short \n");}
-"sizeof"								{printf("encontrei o sizeof \n");}
-"static"								{printf("encontrei o static \n");}
-"struct"								{printf("encontrei o struct \n");}
-"switch"								{printf("encontrei o switch \n");}
-"typedef"								{printf("encontrei o typedef \n");}
-"void"									{printf("encontrei o void \n");}
-"while"									{printf("encontrei o while \n");}
+"or"					{printf("encontrei o OR\n ");}
+"return"				{printf("encontrei o return \n");}
+"short"					{printf("encontrei o short \n");}
+"sizeof"				{printf("encontrei o sizeof \n");}
+"static"				{printf("encontrei o static \n");}
+"struct"				{printf("encontrei o struct \n");}
+"switch"				{printf("encontrei o switch \n");}
+"typedef"				{printf("encontrei o typedef \n");}
+"void"					{printf("encontrei o void \n");}
+"while"					{printf("encontrei o while \n");}
 
 -------Delimitadores
-"!="									{yylval.label = yytext; return TK_OPERADORES_LOGICOS;}
-"=="									{yylval.label = yytext; return TK_IGUAL_IGUAL;}
-"<="									{yylval.label = yytext; return TK_OPERADORES_LOGICOS;}
-">="									{yylval.label = yytext; return TK_OPERADORES_LOGICOS;}
-[(){}[\];,] 							{return *yytext;}
-":"									{printf("encontrei o  : \n"); }
-"\'"									{printf("encontrei a aspas simples \n"); }
-"\""									{printf("encontrei a aspas duplas \n"); }
-
-">>"									{printf("encontrei o >> \n"); }
-"..."									{printf("encontrei o ... \n");}
-
-"//"									{printf("encontrei o comentario de uma linha \n");}
-"/*"									{printf("encontrei o abre comentario varias linhas \n");}
-"*/"									{printf("encontrei o fecha omentario varias linhas \n");}
-"<-"									{yylval.label = yytext; return TK_CONCAT;}
-
+"!="					{yylval.label = yytext; return TK_OPERADORES_LOGICOS;}
+"=="					{yylval.label = yytext; return TK_IGUAL_IGUAL;}
+"<="					{yylval.label = yytext; return TK_OPERADORES_LOGICOS;}
+">="					{yylval.label = yytext; return TK_OPERADORES_LOGICOS;}
+[(){}[\];,] 				{return *yytext;}
+":"					{printf("encontrei o  : \n"); }
+"\'"					{printf("encontrei a aspas simples \n"); }
+"\""					{printf("encontrei a aspas duplas \n"); }
+">>"					{printf("encontrei o >> \n"); }
+"..."					{printf("encontrei o ... \n");}
+"//"					{printf("encontrei o comentario de uma linha \n");}
+"/*"					{printf("encontrei o abre comentario varias linhas \n");}
+"*/"					{printf("encontrei o fecha omentario varias linhas \n");}
+"<-"					{yylval.label = yytext; return TK_CONCAT;}
 
 
 -------Operadores
-[+\-]		{yylval.label = yytext; return TK_OPERADORES_SOMA;}
-[*/]		{yylval.label = yytext; return TK_OPERADORES_MULTI;}
-[<>]        {yylval.label = yytext; return TK_OPERADORES_LOGICOS;}
-"^"										{printf("encontrei o ^ \n");}
-"&"										{printf("encontrei o & \n");}
-"!"										{printf("encontrei o ! \n");}
-"|"										{printf("encontrei o | \n");}
-"~"										{printf("encontrei o ~ (complemento) \n");}
-"++"									{printf("encontrei o mais mais \n");}
-"--"									{printf("encontrei o menos menos \n");}
-"+="									{printf("encontrei o += \n");}
-"-="									{printf("encontrei o -= \n");}
-"*="									{printf("encontrei o *= \n");}
-"/="									{printf("encontrei o /= \n");}
-"|="									{printf("encontrei o |= \n");}
-"^⁼"									{printf("encontrei o ^= \n");}
-"&="									{printf("encontrei o &= \n");}
-"&&"									{yylval.label = yytext; return TK_AND;}
-"||"									{yylval.label = yytext; return TK_OR;}
-"<<="									{printf("encontrei o <<= \n");}
-">>="									{printf("encontrei o >>= \n");}
-"?"										{printf("encontrei o ? \n");}
-
+[+\-]					{yylval.label = yytext; return TK_OPERADORES_SOMA;}
+[*/]					{yylval.label = yytext; return TK_OPERADORES_MULTI;}
+[<>]					{yylval.label = yytext; return TK_OPERADORES_LOGICOS;}
+"^"					{printf("encontrei o ^ \n");}
+"&"					{printf("encontrei o & \n");}
+"!"					{printf("encontrei o ! \n");}
+"|"					{printf("encontrei o | \n");}
+"~"					{printf("encontrei o ~ (complemento) \n");}
+"++"					{printf("encontrei o mais mais \n");}
+"--"					{printf("encontrei o menos menos \n");}
+"+="					{printf("encontrei o += \n");}
+"-="					{printf("encontrei o -= \n");}
+"*="					{printf("encontrei o *= \n");}
+"/="					{printf("encontrei o /= \n");}
+"|="					{printf("encontrei o |= \n");}
+"^⁼"					{printf("encontrei o ^= \n");}
+"&="					{printf("encontrei o &= \n");}
+"&&"					{yylval.label = yytext; return TK_AND;}
+"||"					{yylval.label = yytext; return TK_OR;}
+"<<="					{printf("encontrei o <<= \n");}
+">>="					{printf("encontrei o >>= \n");}
+"?"					{printf("encontrei o ? \n");}
 {ID}					{ yylval.label = yytext; return TK_ID; }
-.				{printf("ponto \n"); *yytext; }
+.					{printf("ponto \n"); *yytext; }
 %%

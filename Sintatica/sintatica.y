@@ -80,7 +80,7 @@ void criaTabelaTipos(){
     TabelaTipos["float-int"] = "float";
     TabelaTipos["float-float"] = "float";
     TabelaTipos["float-string"] = "string";
-	TabelaTipos["float-char"] = "ERRO";
+    TabelaTipos["float-char"] = "ERRO";
     TabelaTipos["float-hex"] = "ERRO";
     TabelaTipos["string-int"] = "ERRO";
     TabelaTipos["string-float"] = "string";
@@ -103,7 +103,7 @@ void criaTabelaTipos(){
     TabelaTipos["int*float"] = "float";
     TabelaTipos["int*string"] = "ERRO";
     TabelaTipos["int*char"] = "string"; //Verificar se será esse tipo mesmo para essa operação
-	TabelaTipos["int*hex"] = "ERRO";
+    TabelaTipos["int*hex"] = "ERRO";
 
     TabelaTipos["float*int"] = "float";
     TabelaTipos["float*float"] = "float";
@@ -184,7 +184,7 @@ void procuraTemp(string traducao, string traducao_2){
 
 
 %}
-%token TK_TIPO_INT TK_TIPO_FLOAT TK_TIPO_STRING TK_TIPO_HEX
+%token TK_TIPO_INT TK_TIPO_FLOAT TK_TIPO_STRING TK_TIPO_HEX TK_TIPO_BOOL
 %token TK_MAIN TK_ERRO TK_ID TK_IGUAL
 %token TK_DECIMAL TK_N_DECIMAL TK_FLOAT TK_HEX TK_STRING //Valores
 %token TK_MAIOR_IGUAL TK_IGUAL_IGUAL TK_MENOR_IGUAL TK_DIFERENTE
@@ -236,9 +236,9 @@ COMANDO 	: AUX { $$.traducao=  $1.traducao; }
 		|ATRIBUICAO { $$.traducao=  $1.traducao; }
 		;
 TK_TIPO: TK_TIPO_INT { $$.traducao=  $1.traducao; }
-		 |TK_TIPO_FLOAT { $$.traducao=  $1.traducao; }
-		 |TK_TIPO_HEX { $$.traducao=  $1.traducao; }
-		 |TK_TIPO_STRING { $$.traducao=  $1.traducao; }
+	|TK_TIPO_FLOAT { $$.traducao=  $1.traducao; }
+	|TK_TIPO_HEX { $$.traducao=  $1.traducao; }
+	|TK_TIPO_STRING { $$.traducao=  $1.traducao; }	
 		;
 DECLARACAO	:TK_TIPO TK_ID{
 			//$$.traducao =  "\n\t" + $1.label + " " + $2.label + ";";
